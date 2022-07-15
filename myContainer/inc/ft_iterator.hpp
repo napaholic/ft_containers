@@ -5,9 +5,9 @@
 #ifndef FT_CONTAINERS_FT_ITERATOR_H
 #define FT_CONTAINERS_FT_ITERATOR_H
 
-#include <vector>
-#include <iterator>
-#include <cstddef>
+#include "./config.hpp"
+
+_BEGIN_NAMESPACE_FT
 
 template <class _Category,
 			class _T,
@@ -26,8 +26,10 @@ template <class Iterator>
 class wrap_iterator {
 public:
 	typedef Iterator iterator_type;
-	typedef typename ft::
+	typedef typename ft::iterator_traits<iterator_type>::value_type value_type;
+	typedef typename ft::iterator_traits
 };
 
+_END_NAMESPACE_FT
 
 #endif //FT_CONTAINERS_FT_ITERATOR_H
