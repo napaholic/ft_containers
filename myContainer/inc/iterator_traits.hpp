@@ -7,10 +7,8 @@
 
 #include "./config.hpp"
 
-_BEGIN_NAMESPACE_FT
+namespace ft {
 
-
-
-_END_NAMESPACE_FT
+}
 
 #endif //FT_CONTAINERS_ITERATOR_TRAITS_HPP

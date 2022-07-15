@@ -9,8 +9,6 @@
 #include <iostream>
 #include <memory>
 
-#define _BEGIN_NAMESPACE_FT namespace ft {
-#define _END_NAMESPACE_FT }
 
 
 #endif //FT_CONTAINERS_CONFIG_HPP
