@@ -5,7 +5,7 @@
 #ifndef FT_CONTAINERS_ITERATOR_TRAITS_HPP
 #define FT_CONTAINERS_ITERATOR_TRAITS_HPP
 
-#include "./config.hpp"
+#include "./ft_iterator.hpp"
 
 namespace ft {
 

@@ -9,32 +9,54 @@
 
 namespace ft {
 	
-	struct input_iterator_tag {};
-	struct output_iterator_tag {};
-	struct forward_iterator_tag : public input_iterator_tag {};
-	struct bidirectional_iterator_tag : public forward_iterator_tag {};
-	struct random_access_iterator_tag : public bidirectional_iterator_tag {};
+	struct input_iterator {};
+	struct output_iterator {};
+	struct forward_iterator : public input_iterator {};
+	struct bidirectional_iterator : public forward_iterator {};
+	struct random_access_iterator : public bidirectional_iterator {};
 	
-	template<class _Category,
-			class _T,
-			class _Distance = ptrdiff_t,
-			class _Pointer = T *,
-			class _Reference = T &>
+	//iterator =====================================
+	template<class Category,
+			class T,
+			class Distance = ptrdiff_t,
+			class Pointer = T *,
+			class Reference = T &>
 	struct iterator {
-		typedef _T value_type;
-		typedef _Distance difference_type;
-		typedef _Pointer pointer;
-		typedef _Reference reference;
-		typedef _Category iterator_category
+		typedef Category	iterator_category;
+		typedef T			value_type;
+		typedef Distance	difference_type;
+		typedef Pointer		pointer;
+		typedef Reference	reference;
+	};
+	//iterator_tarits================================
+	template <typename Iterator>
+	struct iterator_traits {
+		typedef typename Iterator::iterator_category	iterator_category;
+		typedef typename Iterator::value_type			value_type;
+		typedef typename Iterator::difference_type		difference_type;
+		typedef typename Iterator::pointer				pointer;
+		typedef typename Iterator::reference			reference;
 	};
 	
-	template<class Iterator>
-	class wrap_iterator {
-	public:
-		typedef Iterator iterator_type;
-		typedef typename ft::iterator_traits<iterator_type>::value_type value_type;
-		typedef typename ft::iterator_traits
+	template <typename T>
+	struct iterator_traits<T*> {
+		typedef random_access_iterator	iterator_category;
+		typedef T						value_type;
+		typedef ptrdiff_t				difference_type;
+		typedef T*						pointer;
+		typedef T&						reference;
 	};
+	
+	template <typename T>
+	struct iterator_traits<const T*> {
+		typedef random_access_iterator	iterator_category;
+		typedef T						value_type;
+		typedef	ptrdiff_t				difference_type;
+		typedef const T*				pointer;
+		typedef const T&				reference;
+	};
+	
+	
 	
 }
 
