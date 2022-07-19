@@ -8,4 +8,9 @@
 #include "ft_random_access_iterator.hpp"
 #include "ft_reverse_iterator.hpp"
 
+namespace ft {
+	template <class T, class Allocator = std::allocator<T> >
+	class vector
+}
+
 #endif //FT_CONTAINERS_VECTOR_HPP

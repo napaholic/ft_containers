@@ -28,10 +28,56 @@ namespace ft {
 		template <typename _Up>
 		reverse_iterator(const reverse_iterator<_Up>& ref)
 			: _iter(ref.base())
-		{ }
-		reverse_iterator operator=(const reverse_iterator& x)
-		
-		
+		{ };
+		reverse_iterator operator=(const reverse_iterator& x) {
+			_iter = x.base();
+			return *this;
+		};
+		Iterator base() const {
+			return _iter;
+		};
+		reference operator*() const {
+			iterator_type tmp = _iter;
+			return (*--tmp);
+		};
+		pointer operator->() const {
+			return &(operator *());
+		};
+		reverse_iterator& operator++() {
+			--_iter;
+			return *this;
+		};
+		reverse_iterator operator++(int) {
+			reverse_iterator tmp = *this;
+			--current;
+			return tmp;
+		};
+		reverse_iterator operator--() {
+			++_iter;
+			return *this;
+		};
+		reverse_iterator operator--(int) {
+			reverse_iterator tmp = *this;
+			++_iter;
+			return tmp;
+		};
+		reverse_iterator operator+(difference_type __n) const {
+			return reverse_iterator(_iter - __n);
+		};
+		reverse_iterator operator-(difference_type __n) const {
+			return reverse_iterator(_iter + __n);
+		};
+		reverse_iterator operator+=(difference_type __n) {
+			_iter -= __n;
+			return *this;
+		};
+		reverse_iterator operator-=(difference_type __n) {
+			_iter += __n;
+			return *this;
+		};
+		reverse_iterator operator[](difference_type __n) const {
+			return *(*this + __n);
+		}
 	};
 }
 

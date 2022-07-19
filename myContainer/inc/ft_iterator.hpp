@@ -28,7 +28,7 @@ namespace ft {
 		typedef Pointer		pointer;
 		typedef Reference	reference;
 	};
-	//iterator_tarits================================
+	//iterator_traits================================
 	template <typename Iterator>
 	struct iterator_traits {
 		typedef typename Iterator::iterator_category	iterator_category;
