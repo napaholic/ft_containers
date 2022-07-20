@@ -10,7 +10,11 @@
 
 namespace ft {
 	template <class T, class Allocator = std::allocator<T> >
-	class vector
+	class vector {
+	public:
+		typedef T													value_type;
+		typedef Allocator
+	};
 }
 
 #endif //FT_CONTAINERS_VECTOR_HPP

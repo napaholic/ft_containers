@@ -29,11 +29,11 @@ namespace ft {
 		reverse_iterator(const reverse_iterator<_Up>& ref)
 			: _iter(ref.base())
 		{ };
-		reverse_iterator operator=(const reverse_iterator& x) {
+		reverse_iterator& operator=(const reverse_iterator& x) {
 			_iter = x.base();
 			return *this;
 		};
-		Iterator base() const {
+		_Iter base() const {
 			return _iter;
 		};
 		reference operator*() const {
@@ -49,7 +49,7 @@ namespace ft {
 		};
 		reverse_iterator operator++(int) {
 			reverse_iterator tmp = *this;
-			--current;
+			--_iter;
 			return tmp;
 		};
 		reverse_iterator operator--() {

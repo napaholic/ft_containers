@@ -9,11 +9,11 @@
 
 namespace ft {
 	
-	struct input_iterator {};
-	struct output_iterator {};
-	struct forward_iterator : public input_iterator {};
-	struct bidirectional_iterator : public forward_iterator {};
-	struct random_access_iterator : public bidirectional_iterator {};
+	struct input_iterator_tag {};
+	struct output_iterator_tag {};
+	struct forward_iterator_tag : public input_iterator_tag {};
+	struct bidirectional_iterator_tag : public forward_iterator_tag {};
+	struct random_access_iterator_tag : public bidirectional_iterator_tag {};
 	
 	//iterator =====================================
 	template<class Category,
@@ -40,7 +40,7 @@ namespace ft {
 	
 	template <typename T>
 	struct iterator_traits<T*> {
-		typedef random_access_iterator	iterator_category;
+		typedef random_access_iterator_tag	iterator_category;
 		typedef T						value_type;
 		typedef ptrdiff_t				difference_type;
 		typedef T*						pointer;
@@ -49,7 +49,7 @@ namespace ft {
 	
 	template <typename T>
 	struct iterator_traits<const T*> {
-		typedef random_access_iterator	iterator_category;
+		typedef random_access_iterator_tag	iterator_category;
 		typedef T						value_type;
 		typedef	ptrdiff_t				difference_type;
 		typedef const T*				pointer;
