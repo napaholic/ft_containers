@@ -20,15 +20,15 @@ namespace ft {
 		typedef typename ft::iterator<random_access_iterator_tag, T>::difference_type	difference_type;
 		
 	private:
-		pointer _ptr;
+		pointer __ptr;
 		
 	public:
 		
-		random_access_iterator() : _ptr(ft_nullptr) {}
+		random_access_iterator() : __ptr(ft_nullptr) {}
 		
-		random_access_iterator(const random_access_iterator& ref) : _ptr(ref._ptr) {}
+		random_access_iterator(const random_access_iterator& ref) : __ptr(ref._ptr) {}
 		
-		random_access_iterator(pointer ptr) : _ptr(ptr) {}
+		random_access_iterator(pointer ptr) : __ptr(ptr) {}
 		
 		virtual ~random_access_iterator() {}
 		
@@ -37,7 +37,31 @@ namespace ft {
 				this->_ptr = ref._ptr;
 			return (*this);
 		}
-	
+		pointer base() const {
+			return (this->_ptr);
+		}
+		
+		random_access_iterator&		operator+=(difference_type	n) {
+			__ptr += n;
+			return (*this);
+		}
+		
+		random_access_iterator		operator+(difference_type	n) const {
+			random_access_iterator __tmp = (*this);
+			return (__tmp += n);
+		}
+		
+		random_access_iterator		operator-=(difference_type	n) {
+			__ptr -= n;
+			return (*this);
+		}
+		
+		random_access_iterator		operator-(difference_type	n) const {
+			random_access_iterator	__tmp = (*this);
+			return (__tmp -= n);
+		}
+		
+		random_access_iterator		operator
 	};
 }
 
