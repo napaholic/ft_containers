@@ -94,8 +94,65 @@ namespace ft {
 		}
 		
 		reference 					operator*() { return (*__ptr); }
-		const reference 			operator*() 
+		const reference 			operator*() const { return (*__ptr); }
+		pointer						operator->() { return (__ptr); }
+		
+		operator random_access_iterator<const T> () const { return (random_access_iterator<const T>(this->__ptr)); }
+		
 	};
+	
+	template<typename T>
+	random_access_iterator<T> operator+(typename random_access_iterator<T>::difference_type n, const random_access_iterator<T>& iterator) {
+		random_access_iterator<T> iter = iterator;
+		return (iter + n);
+	}
+	
+	template<typename iter>
+	typename ft::random_access_iterator<iter>:: difference_type  operator-(const random_access_iterator<iter>& lhs, const random_access_iterator<iter>& rhs) {
+		return (lhs.base() - rhs.base());
+	}
+	
+	template<typename iter1, typename iter2>
+	typename ft::random_access_iterator<iter1>::difference_type operator-(const random_access_iterator<iter1>& lhs, const random_access_iterator<iter2>& rhs) {
+		return (lhs.base() - rhs.base());
+	}
+	
+	template<typename iter>
+	bool	operator==(const random_access_iterator<iter>& lhs, const random_access_iterator<iter>& rhs) { return (lhs.base() == rhs.base()); }
+	
+	template<typename iter>
+	bool	operator!=(const random_access_iterator<iter>& lhs, const random_access_iterator<iter>& rhs) { return (lhs.base() != rhs.base()); }
+	
+	template<typename iter>
+	bool	operator<(const random_access_iterator<iter>& lhs, const random_access_iterator<iter>& rhs) { return (lhs.base() < rhs.base()); }
+	
+	template<typename iter>
+	bool	operator>(const random_access_iterator<iter>& lhs, const random_access_iterator<iter>& rhs) { return (rhs < lhs); }
+	
+	template<typename iter>
+	bool	operator<=(const random_access_iterator<iter>& lhs, const random_access_iterator<iter>& rhs) { return !(rhs < lhs); }
+	
+	template<typename iter>
+	bool	operator>=(const random_access_iterator<iter>& lhs, const random_access_iterator<iter>& rhs) { return !(lhs < rhs); }
+	
+	template<typename iter1, typename iter2>
+	bool	operator==(const random_access_iterator<iter1>& lhs, const random_access_iterator<iter2>& rhs) { return (lhs.base() == rhs.base()); }
+	
+	template<typename iter1, typename iter2>
+	bool	operator!=(const random_access_iterator<iter1>& lhs, const random_access_iterator<iter2>& rhs) { return (lhs.base() != rhs.base()); }
+	
+	template<typename iter1, typename iter2>
+	bool	operator<(const random_access_iterator<iter1>& lhs, const random_access_iterator<iter2>& rhs) { return (lhs.base() < rhs.base()); }
+	
+	template<typename iter1, typename iter2>
+	bool	operator>(const random_access_iterator<iter1>& lhs, const random_access_iterator<iter2>& rhs) { return (rhs < lhs); }
+	
+	template<typename iter1, typename iter2>
+	bool	operator<=(const random_access_iterator<iter1>& lhs, const random_access_iterator<iter2>& rhs) { return !(rhs < lhs); }
+	
+	template<typename iter1, typename iter2>
+	bool	operator>=(const random_access_iterator<iter1>& lhs, const random_access_iterator<iter2>& rhs) { return !(lhs < rhs); }
+	
 }
 
 #endif //FT_CONTAINERS_ITERATOR_TRAITS_HPP
