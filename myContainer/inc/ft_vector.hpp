@@ -40,7 +40,8 @@ namespace ft {
 			: _start(ft_nullptr), _end(ft_nullptr), _capacity(ft_nullptr), _alloc(alloc)
 		{}
 
-		explicit vector(size_type n, const value_type& value = value_type(), const allocator_type& alloc = allocator_type())
+		explicit vector(size_type n, const value_type& value = value_type(),
+						const allocator_type& alloc = allocator_type())
 			: _start(ft_nullptr), _end(ft_nullptr), _capacity(ft_nullptr), _alloc(alloc)
 		{
 			_start = _alloc.allocate(n);
@@ -48,6 +49,30 @@ namespace ft {
 			_capacity = _start + n;
 			for (size_type i = 0; i < n; i++)
 				_alloc.construct(_end++, value);
+		}
+		
+		template <typename InputIterator>
+		vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
+			   typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = ft_nullptr)
+			   : _alloc(alloc)
+		{
+			size_type n = ft::distance(first, last);
+			_start = _alloc.allocate(n);
+			_end = _start;
+			_capacity = _start + n;
+			while (n--) {
+				_alloc.construct(_end++, *first);
+				++first;
+			}
+		}
+		
+		vector(const vector& other) : _start(ft_nullptr), _end(ft_nullptr), _capacity(ft_nullptr), _alloc(ft_nullptr)
+		{
+			size_type n = other.size();
+			_start = _alloc.allocate(n);
+			_end = _start;
+			_capacity = _start + n;
+			
 		}
 	};
 }
