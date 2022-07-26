@@ -13,6 +13,7 @@
 namespace ft {
 	template <class T, class Allocator = std::allocator<T> >
 	class vector {
+	
 	public:
 		//Member types===========================================================================
 		typedef T														value_type;
@@ -109,6 +110,36 @@ namespace ft {
 		size_type	size() const { return (_end - _start); }
 		size_type	max_size() const { return (_alloc.max_size()); }
 		size_type	capacity() const { return (_capacity - _start); }
+		void		reserve(size_type n) { //need to complete
+			if (n > this->max_size())
+				throw std::length_error("ft::vector::reserve: n > max_size()");
+			if (n > this->capacity()) {
+				pointer prev_start = _start;
+				pointer prev_end = _end;
+				size_type prev_capa = this->capacity();
+				size_type prev_size = this->size();
+				
+				_start = _alloc.allocate(n);
+				_end = _start;
+				_capacity = _start + n;
+				try {
+					while (prev_start != prev_end) {
+						_alloc.construct(_end, *prev_start);
+						++_end;
+						++prev_start;
+					}
+					prev_start = _start;
+					while (prev_start != prev_end) {
+						_alloc.destroy(prev_start);
+						++prev_start;
+					}
+				} catch (...) {
+					_alloc.
+				}
+				_alloc.deallocate(prev_start - prev_size, prev_capa);
+			}
+		}
+		
 		
 		// Modifiers
 		void assign(size_type n, const value_type& val) {
