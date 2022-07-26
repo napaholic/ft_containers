@@ -7,6 +7,8 @@
 
 #include "ft_random_access_iterator.hpp"
 #include "ft_reverse_iterator.hpp"
+#include "config.hpp"
+#include <vector>
 
 namespace ft {
 	template <class T, class Allocator = std::allocator<T> >
@@ -27,14 +29,14 @@ namespace ft {
 		typedef typename ft::iterator_traits<iterator>::difference_type	difference_type;
 
 	protected:
-		//Member variables=======================================================================
+		// Member variables=======================================================================
 		pointer 		_start;
 		pointer 		_end;
 		pointer			_capacity;
 		allocator_type	_alloc;
 
 	public:
-		//Constructors===========================================================================
+		// Constructors===========================================================================
 
 		explicit vector(const allocator_type& alloc = allocator_type())
 			: _start(ft_nullptr), _end(ft_nullptr), _capacity(ft_nullptr), _alloc(alloc)
@@ -72,8 +74,47 @@ namespace ft {
 			_start = _alloc.allocate(n);
 			_end = _start;
 			_capacity = _start + n;
-			
+			pointer p = other._start;
+			while (n--) {
+				_alloc.construct(_end++, *p);
+				++p;
+			}
 		}
+		
+		vector& operator=(const vector& other) {
+			if (this != &other) {
+				this->clear();
+				insert(_start, other, other.begin(), other.end());
+			}
+			return (*this);
+		}
+		
+		~vector() {
+			this->clear();
+			_alloc.deallocate(_start, this->capacity());
+		}
+		
+		// Iterator
+		iterator				begin() { return (_start); }
+		const_iterator			begin() const { return (_start); }
+		iterator				end() { return (_end); }
+		const_iterator			end() const	{ return (_end); }
+		reverse_iterator		rbegin() { return (reverse_iterator(_end)); }
+		const_reverse_iterator	rbegin() const { return (reverse_iterator(_end)); }
+		reverse_iterator		rend() { return (reverse_iterator(_start)); }
+		const_reverse_iterator	rend() const { return (reverse_iterator(_start)); }
+		
+		// Capacity
+		bool		empty() const { return (_start == _end); }
+		size_type	size() const { return (_end - _start); }
+		size_type	max_size() const { return (_alloc.max_size()); }
+		size_type	capacity() const { return (_capacity - _start); }
+		
+		// Modifiers
+		void assign(size_type n, const value_type& val) {
+			this->
+		}
+		
 	};
 }
 

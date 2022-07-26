@@ -8,6 +8,8 @@
 #include <functional>
 #include <iostream>
 #include <memory>
+#include "ft_iterator.hpp"
+
 namespace ft {
 	
 	//enable_if
@@ -88,7 +90,17 @@ namespace ft {
 	struct is_integral<char32_t> : public is_integral_base<true, char32_t> {
 	};
 
-
+	// distance
+	
+	template <typename InputIt>
+	typename ft::iterator_traits <InputIt>::difference_type distance(InputIt first, InputIt last) {
+		typename ft::iterator_traits<InputIt>::difference_type n = 0;
+		while (first != last) {
+			++first;
+			++n;
+		}
+		return n;
+	}
 
 	// ft_nullptr
 	
