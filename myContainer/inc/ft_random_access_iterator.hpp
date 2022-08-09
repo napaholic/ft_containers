@@ -6,6 +6,7 @@
 #define FT_CONTAINERS_ITERATOR_TRAITS_HPP
 
 #include "./ft_iterator.hpp"
+#include "config.hpp"
 #include <vector>
 
 namespace ft {
@@ -27,7 +28,7 @@ namespace ft {
 		
 		random_access_iterator() : __ptr(ft_nullptr) {}
 		
-		random_access_iterator(const random_access_iterator& ref) : __ptr(ref._ptr) {}
+		random_access_iterator(const random_access_iterator& ref) : __ptr(ref.__ptr) {}
 		
 		random_access_iterator(pointer ptr) : __ptr(ptr) {}
 		
@@ -88,9 +89,9 @@ namespace ft {
 		}
 		
 		random_access_iterator&		operator++(int) {
-			random_access_iterator iter = (*this);
+			random_access_iterator tmp_iter = (*this);
 			++__ptr;
-			return (iter);
+			return (tmp_iter);
 		}
 		
 		reference 					operator*() { return (*__ptr); }

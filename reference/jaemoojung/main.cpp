@@ -152,6 +152,8 @@ void my_test_1(void) {
 		std::cout << *it << " ";
 	std::cout << std::endl;
 	std::cout << "===========================================================" << std::endl;
+	ft::vector<int> myT(10);
+	std::cout << (bool)(myV < myT) << std::endl;
 }
 
 void const_test() {
