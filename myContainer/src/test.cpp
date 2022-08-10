@@ -4,6 +4,7 @@
 #include "ft_vector.hpp"
 #include "config.hpp"
 #include <string>
+#include <map>
 
 void test_1(void) {
 	std::vector<int> v;
@@ -28,5 +29,16 @@ void test_1(void) {
 }
 
 int main(void) {
-	test_1();
+	std::map<int, int> t;
+	t.insert(std::make_pair(1, 10));
+	t.insert(std::make_pair(1, 12));
+	t.insert(std::make_pair(1, 12));
+	t.insert(std::make_pair(1, 12));
+	std::cout << t.begin()->first << std::endl;
+	std::cout << t[0] << std::endl;
+	std::cout << t[1] << std::endl;
+	std::cout << t[2] << std::endl;
+	std::cout << t[3] << std::endl;
+	std::cout << t[4] << std::endl;
+	//test_1();
 }
