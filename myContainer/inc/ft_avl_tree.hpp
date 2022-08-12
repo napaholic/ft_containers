@@ -23,9 +23,88 @@ namespace ft {
 		size_type 	_height;
 		
 		avl_node() : _value(), _right(ft_nullptr), _left(ft_nullptr), _parent(ft_nullptr), _height(1) {}
+		
+		avl_node(const T& value, avl_node* parent = ft_nullptr,
+				 avl_node* left = ft_nullptr, avl_node* right = ft_nullptr, size_type height = 1)
+				 : _value(value), _parent(parent), _left(left), _right(right), _height(height)
+		{}
+		
+		avl_node(const avl_node& ref)
+		: _value(ref._value),
+		_parent(ref._parent),
+		_left(ref._left),
+		_right(ref._right),
+		_height(ref._height) {}
+		
+		virtual ~avl_node() {}
+		
+		avl_node&	operator=(const avl_node& ref) {
+			if (this != &ref) {
+				this->_value = ref._value;
+				this->_parent = ref._parent;
+				this->_left = ref._left;
+				this->_right = ref._right;
+				this->_height = ref._height;
+			}
+			return (*this);
+		}
+		
+		bool	operator==(const avl_node& ref) const {
+			return (this->value == ref._value);
+		}
+		
+		bool	operator!=(const avl_node& ref) const {
+			return (this->_value != ref._value);
+		}
 	};
 	
+	template <class T1, class T2>
+	bool operator==(const avl_node<T1>& lhs, const avl_node<T2>& rhs) {
+		return lhs == rhs;
+	}
 	
+	template <class T1, class T2>
+	bool operator!=(const avl_node<T1>& lhs, const avl_node<T2>& rhs) {
+		return lhs != rhs;
+	}
+	
+	/* *
+	 * rb_tree_node(const T& value, rb_tree_node* parent = ft_nullptr,
+			rb_tree_node* left = ft_nullptr, rb_tree_node* right = ft_nullptr, Color color = RED)
+			: _value(value),
+			_parent(parent),
+			_left(left),
+			_right(right),
+			_color(color) {}
+
+		rb_tree_node(const rb_tree_node& ref)
+			: _value(ref._value),
+			_parent(ref._parent),
+			_left(ref._left),
+			_right(ref._right),
+			_color(ref._color) {}
+		
+		virtual ~rb_tree_node() {}
+		
+		rb_tree_node&	operator=(const rb_tree_node& ref) {
+			if (this != &ref) {
+				this->_value = ref._value;
+				this->_parent = ref._parent;
+				this->_left = ref._left;
+				this->_right = ref._right;
+				this->_color = ref._color;
+			}
+			return (*this);
+		}
+
+		bool	operator==(const rb_tree_node& ref) const {
+			return (this->_value == ref._value);
+		}
+
+		bool	operator!=(const rb_tree_node& ref) const {
+			return (this->_value != ref._value);
+		}
+	 * */
 	
 	class Node {
 	public:
@@ -195,17 +274,17 @@ namespace ft {
 	}
 
 // Print the tree
-	void printTree(Node *root, string indent, bool last) {
+	void printTree(Node *root, std::string indent, bool last) {
 		if (root != nullptr) {
-			cout << indent;
+			std::cout << indent;
 			if (last) {
-				cout << "R----";
+				std::cout << "R----";
 				indent += "   ";
 			} else {
-				cout << "L----";
+				std::cout << "L----";
 				indent += "|  ";
 			}
-			cout << root->key << endl;
+			std::cout << root->key << std::endl;
 			printTree(root->left, indent, false);
 			printTree(root->right, indent, true);
 		}
@@ -223,7 +302,7 @@ namespace ft {
 		root = insertNode(root, 11);
 		printTree(root, "", true);
 		root = deleteNode(root, 13);
-		cout << "After deleting " << endl;
+		std::cout << "After deleting " << std::endl;
 		printTree(root, "", true);
 	}
 }
