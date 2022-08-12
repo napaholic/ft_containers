@@ -5,11 +5,27 @@
 #ifndef MYCONTAINER_FT_AVL_TREE_HPP
 #define MYCONTAINER_FT_AVL_TREE_HPP
 
+#include "config.hpp"
+
 namespace ft {
 	// AVL tree implementation in C++
-
-#include <iostream>
-	using namespace std;
+	
+	template <typename T>
+	struct avl_node
+	{
+		typedef avl_node*			node_ptr;
+		typedef size_t				size_type;
+		
+		T			_value;
+		node_ptr	_right;
+		node_ptr 	_left;
+		node_ptr 	_parent;
+		size_type 	_height;
+		
+		avl_node() : _value(), _right(ft_nullptr), _left(ft_nullptr), _parent(ft_nullptr), _height(1) {}
+	};
+	
+	
 	
 	class Node {
 	public:

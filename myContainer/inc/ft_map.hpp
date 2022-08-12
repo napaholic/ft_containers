@@ -24,7 +24,7 @@ namespace ft
 		typedef T&								reference;
 		typedef std::ptrdiff_t					difference_type;
 		
-		
+		typedef typename Node<T>::node_ptr node_ptr;
 	
 }
 
