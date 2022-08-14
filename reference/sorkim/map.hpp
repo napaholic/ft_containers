@@ -148,7 +148,7 @@ namespace ft
 
 	template <typename Key,
 			  typename T,
-			  typename Compare = ft::less<Key>,
+			  typename Compare = ft::<Key>,
 			  typename Alloc = std::allocator<pair<const Key, T> > >
 	class map
 	{
