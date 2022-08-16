@@ -148,8 +148,7 @@ namespace ft {
 			return (min);
 		}
 		
-		node_ptr find_max_node(node_ptr node) const
-		{
+		node_ptr find_max_node(node_ptr node) const {
 			node_ptr max = node;
 			if (max != ft_nullptr)
 				while (max->_right)
@@ -328,52 +327,43 @@ namespace ft {
 			}
 		}
 		
-		bool is_empty() const
-		{
+		bool is_empty() const {
 			return (__size == 0);
 		}
 		
-		void clear()
-		{
+		void clear() {
 			__root = empty(__root);
 			__size = 0;
 		}
 		
-		size_type get_size() const
-		{
+		size_type get_size() const {
 			return __size;
 		}
 		
-		size_type get_max_size() const
-		{
+		size_type get_max_size() const {
 			return __alloc.max_size();
 		}
 		
-		node_ptr get_end_node() const
-		{
+		node_ptr get_end_node() const {
 			return __end;
 		}
 		
-		node_ptr get_min_node() const
-		{
+		node_ptr get_min_node() const {
 			return find_min_node(__root);
 		}
 		
-		node_ptr get_max_node() const
-		{
+		node_ptr get_max_node() const {
 			return find_max_node(__root);
 		}
 		
-		node_ptr find(value_type val) const
-		{
+		node_ptr find(value_type val) const {
 			node_ptr node = find_node(__root, val);
 			if (node == NULL)
 				return __end;
 			return node;
 		}
 		
-		void swap(AvlTree &x)
-		{
+		void swap(AvlTree &x) {
 			node_ptr tmp_begin = x._root;
 			node_ptr tmp_end = x._end;
 			size_type tmp_size = x._size;

@@ -199,7 +199,8 @@ namespace ft
 			: _comp(comp), _alloc(alloc), _tree(value_compare(_comp)) {}
 		
 		template <class InputIterator>
-		map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type())
+		map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(),
+			const allocator_type &alloc = allocator_type())
 			: _comp(comp), _alloc(alloc), _tree(value_compare(comp))
 		{
 			insert(first, last);
