@@ -1,1 +1,36 @@
-
+In file included from ../vector_tests/begin().cpp:1:
+In file included from ../vector_tests/../system/system_methods.ipp:2:
+In file included from ../vector_tests/../system/lib.hpp:30:
+../vector_tests/../system/Alloc.hpp:55:27: error: variadic templates are a C++11 extension [-Werror,-Wc++11-extensions]
+template <class _Up, class... _Args>
+                          ^
+../vector_tests/../system/Alloc.hpp:58:34: error: rvalue references are a C++11 extension [-Werror,-Wc++11-extensions]
+        construct(_Up* __p, _Args&&... __args)
+                                 ^
+../vector_tests/../system/Alloc.hpp:164:27: error: variadic templates are a C++11 extension [-Werror,-Wc++11-extensions]
+template <class _Up, class... _Args>
+                          ^
+../vector_tests/../system/Alloc.hpp:167:34: error: rvalue references are a C++11 extension [-Werror,-Wc++11-extensions]
+        construct(_Up* __p, _Args&&... __args)
+                                 ^
+In file included from ../vector_tests/begin().cpp:2:
+In file included from ../vector_tests/__service.ipp:3:
+In file included from ../vector_tests/../../../vector.hpp:8:
+../vector_tests/../../../utils.hpp:232:23: error: use of class template 'less' requires template arguments
+                return !(lhs < rhs);less
+                                    ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/operations.h:473:29: note: template is declared here
+struct _LIBCPP_TEMPLATE_VIS less
+                            ^
+In file included from ../vector_tests/begin().cpp:2:
+In file included from ../vector_tests/__service.ipp:3:
+In file included from ../vector_tests/../../../vector.hpp:8:
+../vector_tests/../../../utils.hpp:233:2: error: expected unqualified-id
+        }
+        ^
+6 errors generated.
+ated.
+alified-id
+        }
+        ^
+6 errors generated.

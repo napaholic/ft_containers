@@ -114,18 +114,20 @@ namespace ft {
 	class AvlTree {
 	
 	public:
-		typedef T value_type;
-		typedef Compare value_compare;
-		typedef typename avl_node<value_type>::node_ptr node_ptr;
-		typedef typename avl_node<value_type>::size_type size_type;
-		typedef typename Alloc::template rebind<avl_node<T> >::other alloc_type;
+		typedef T 														value_type;
+		typedef Compare 												value_compare;
+		typedef typename avl_node<value_type>::node_ptr 				node_ptr;
+		typedef typename avl_node<value_type>::size_type 				size_type;
+		typedef typename Alloc::template rebind<avl_node<T> >::other	alloc_type;
 	
 	private:
-		node_ptr __root;
-		node_ptr __end;
-		size_type __size;
-		alloc_type __alloc;
-		value_compare __comp;
+		node_ptr 														__root;
+		node_ptr 														__end;
+		size_type 														__size;
+		alloc_type 														__alloc;
+		value_compare 													__comp;
+		
+		
 		
 		size_type max(size_type a, size_type b) {
 			return (a > b) ? a : b;
@@ -137,24 +139,6 @@ namespace ft {
 		
 		int get_balance_factor(node_ptr node) {
 			return (node == ft_nullptr) ? 0 : height(node->_left) - height(node->_right);
-		}
-		
-		node_ptr find_min_node(node_ptr node) const {
-			node_ptr min = node;
-			
-			if (min != ft_nullptr)
-				while (min->_left)
-					min = min->_left;
-			return (min);
-		}
-		
-		node_ptr find_max_node(node_ptr node) const {
-			node_ptr max = node;
-			if (max != ft_nullptr)
-				while (max->_right)
-					max = max->_right;
-			
-			return (max);
 		}
 		
 		node_ptr right_rotate(node_ptr y) {
@@ -193,23 +177,23 @@ namespace ft {
 				__size += 1;
 				return (node);
 			}
-			else if (_comp(data, node->_value))
+			else if (__comp(data, node->_value))
 				node->_left = insert_node(node->_left, data, node);
-			else if (_comp(node->_value, data))
+			else if (__comp(node->_value, data))
 				node->_right = insert_node(node->_right, data, node);
 			else
 				return (node);
-			node->height = max(height(node->_left), height(node->_right)) + 1;
+			node->_height = max(height(node->_left), height(node->_right)) + 1;
 			int balance_factor = get_balance_factor(node);
 			if (balance_factor > 1) {
-				if (_comp(data, node->_left->data))
+				if (__comp(data, node->_left->_value))
 					return (right_rotate(node));
 				else {
 					node->_left = left_rotate(node->_left);
 					return right_rotate(node);
 				}
 			} else if (balance_factor < -1) {
-				if (_comp(node->_right->_value, data))
+				if (__comp(node->_right->_value, data))
 					return left_rotate(node);
 				else {
 					node->_right = right_rotate(node->_right);
@@ -219,12 +203,14 @@ namespace ft {
 			return node;
 		}
 		
+		
+		//delete
 		node_ptr delete_node(node_ptr node, value_type data) {
 			if (node == ft_nullptr)
 				return node;
-			else if (_comp(data, node->_value))
+			else if (__comp(data, node->_value))
 				node->_left = delete_node(node->_left, data);
-			else if (_comp(node->_value, data))
+			else if (__comp(node->_value, data))
 				node->_right = delete_node(node->_right, data);
 			else {
 				if (node->_left == ft_nullptr || node->_right == ft_nullptr) {
@@ -294,13 +280,14 @@ namespace ft {
 		node_ptr find_node(node_ptr node, const value_type val) const {
 			if (node == ft_nullptr)
 				return ft_nullptr;
-			else if (_comp(val, node->_value))
+			else if (__comp(val, node->_value))
 				return find_node(node->_left, val);
-			else if (_comp(node->data, val))
+			else if (__comp(node->_value, val))
 				return find_node(node->_right, val);
 			return node;
 		}
 	public:
+	//constructor
 		AvlTree(value_compare c) : __comp(c) {
 			__root = ft_nullptr;
 			__size = 0;
@@ -312,7 +299,8 @@ namespace ft {
 			__root = empty(__root);
 			__alloc.deallocate(__end, 1);
 		}
-		
+	//================
+	
 		void insert(value_type data) {
 			__root = insert_node(__root, data);
 			__root->_parent = __end;
@@ -325,6 +313,27 @@ namespace ft {
 				__root->_parent = __end;
 				__end->_left = __root;
 			}
+		}
+		
+		size_type erase(const value_type &k) {
+			return delete_value(k);
+		}
+		
+		node_ptr find_min_node(node_ptr node) const {
+			node_ptr min = node;
+			
+			if (min != ft_nullptr)
+				while (min->_left)
+					min = min->_left;
+			return (min);
+		}
+		
+		node_ptr find_max_node(node_ptr node) const {
+			node_ptr max = node;
+			if (max != ft_nullptr)
+				while (max->_right)
+					max = max->_right;
+			return (max);
 		}
 		
 		bool is_empty() const {
@@ -344,6 +353,10 @@ namespace ft {
 			return __alloc.max_size();
 		}
 		
+		node_ptr get_root_node() const {
+			return __root;
+		}
+		
 		node_ptr get_end_node() const {
 			return __end;
 		}
@@ -358,23 +371,29 @@ namespace ft {
 		
 		node_ptr find(value_type val) const {
 			node_ptr node = find_node(__root, val);
-			if (node == NULL)
+			if (node == ft_nullptr)
 				return __end;
 			return node;
 		}
 		
-		void swap(AvlTree &x) {
-			node_ptr tmp_begin = x._root;
-			node_ptr tmp_end = x._end;
-			size_type tmp_size = x._size;
+		void swap(AvlTree &ref) {
+			node_ptr tmp_begin = ref.__root;
+			node_ptr tmp_end = ref.__end;
+			size_type tmp_size = ref.__size;
+			alloc_type tmp_alloc = ref.__alloc;
+			value_compare tmp_comp = ref.__comp;
 			
-			x._size = __size;
-			x._root = __root;
-			x._end = __end;
+			ref.__size = __size;
+			ref.__root = __root;
+			ref.__end = __end;
+			ref.__alloc = __alloc;
+			ref.__comp = __comp;
 			
 			__size = tmp_size;
 			__root = tmp_begin;
 			__end = tmp_end;
+			__alloc = tmp_alloc;
+			__comp = tmp_comp;
 		}
 	};
 	
