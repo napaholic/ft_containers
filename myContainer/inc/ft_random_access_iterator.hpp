@@ -5,9 +5,8 @@
 #ifndef FT_CONTAINERS_ITERATOR_TRAITS_HPP
 #define FT_CONTAINERS_ITERATOR_TRAITS_HPP
 
-#include "./ft_iterator.hpp"
+#include "./iterator.hpp"
 #include "config.hpp"
-#include <vector>
 
 namespace ft {
 
@@ -36,7 +35,7 @@ namespace ft {
 		
 		random_access_iterator& operator=(const random_access_iterator& ref) {
 			if (this != &ref)
-				this->_ptr = ref.__ptr;
+				this->__ptr = ref.__ptr;
 			return (*this);
 		}
 		pointer base() const {

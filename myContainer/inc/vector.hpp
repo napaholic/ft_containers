@@ -8,7 +8,6 @@
 #include "ft_random_access_iterator.hpp"
 #include "ft_reverse_iterator.hpp"
 #include "config.hpp"
-#include <vector>
 
 namespace ft {
 	template <class T, class Allocator = std::allocator<T> >
@@ -69,7 +68,7 @@ namespace ft {
 			}
 		}
 		
-		vector(const vector& other) : _start(ft_nullptr), _end(ft_nullptr), _capacity(ft_nullptr), _alloc(ft_nullptr)
+		vector(const vector& other) : _start(ft_nullptr), _end(ft_nullptr), _capacity(ft_nullptr), _alloc(other._alloc)
 		{
 			size_type n = other.size();
 			_start = _alloc.allocate(n);
@@ -313,7 +312,7 @@ namespace ft {
 		
 		void push_back(const value_type& val) {
 			if (_end == _capacity) {
-				this->reserve((this->size + 2) * 2);
+				this->reserve((this->size() + 2) * 2);
 			}
 			_alloc.construct(_end, val);
 			_end++;

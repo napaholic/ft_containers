@@ -2,8 +2,8 @@
 // Created by jaewkim on 2022/08/09.
 //
 
-#ifndef MYCONTAINER_FT_MAP_HPP
-#define MYCONTAINER_FT_MAP_HPP
+#ifndef MYCONTAINER_MAP_HPP
+#define MYCONTAINER_MAP_HPP
 
 #include "config.hpp"
 #include "ft_avl_tree.hpp"
@@ -510,4 +510,4 @@ namespace ft
 	}
 }
 
-#endif //MYCONTAINER_FT_MAP_HPP
+#endif //MYCONTAINER_MAP_HPP

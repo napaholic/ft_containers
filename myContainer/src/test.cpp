@@ -1,10 +1,9 @@
 #include <vector>
 #include <iostream>
 #include <iterator>
-#include "ft_vector.hpp"
-#include "config.hpp"
-#include <string>
-#include "ft_map.hpp"
+#include "vector.hpp"
+#include "stack.hpp"
+#include "map.hpp"
 #include <map>
 
 void test_1(void) {
@@ -83,8 +82,10 @@ int main(void) {
 	std::cout << &*iter2 << std::endl;
 	std::cout << my.rbegin()->second << std::endl;
 	std[0] = 1;
-
-	
-	
+	ft::vector<int> myv;
+	const int a = 4;
+	myv.push_back(3);
+	std::cout << myv[0] << std::endl;
+	std::cout << myv[1] << std::endl;
 	//test_1();
 }
