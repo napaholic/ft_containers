@@ -87,5 +87,9 @@ int main(void) {
 	myv.push_back(3);
 	std::cout << myv[0] << std::endl;
 	std::cout << myv[1] << std::endl;
+	ft::vector<int> myv1;
+	myv1.push_back(4);
+	myv = myv1;
+	std::cout << myv[0] << std::endl;
 	//test_1();
 }

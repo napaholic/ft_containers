@@ -84,7 +84,7 @@ namespace ft {
 		vector& operator=(const vector& other) {
 			if (this != &other) {
 				this->clear();
-				insert(_start, other, other.begin(), other.end());
+				insert(_start, other.begin(), other.end());
 			}
 			return (*this);
 		}
