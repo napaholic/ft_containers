@@ -136,15 +136,13 @@ namespace ft {
 				throw std::length_error("ft::vector::resize: n > _alloc.max_size()");
 			if (this->size() == n)
 				return;
-			if (n < this->size()) {
-				while (this->size() != n)
-					pop_back();
-			} else {
-				if (this->capacity() * 2 < n)
-					reserve(n);
-				while (this->size() != n)
-					push_back(val);
-			}
+			for (size_type i = n; i < this->size(); i++)
+				this->_alloc.destroy(&this->_start[i]);
+			if (n > this->capacity())
+				this->reserve(n);
+			for (size_type i = this->size(); i < n; i++)
+				this->_alloc.construct(&this->_start[i], val);
+			this->_end = _start + n;
 		}
 		
 		// Element Access
@@ -169,17 +167,16 @@ namespace ft {
 		// Modifiers
 		template <class InputIterator>
 		void	assign(InputIterator first, InputIterator last,
-					   typename ft::enable_if<!ft::is_integral<InputIterator>::value,
-							   InputIterator>::type* = ft_nullptr) {
+		typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type * = ft_nullptr) {
 			this->clear();
 			size_type size = ft::distance(first, last);
 			if (size <= this->capacity()) {
 				while (&*first != &*last)
-					_alloc.construct(_end++, *first);
+					_alloc.construct(_end++, *first++);
 			} else {
 				this->reserve(size);
 				while (&*first != &*last)
-					_alloc.construct(_end++, *first);
+					_alloc.construct(_end++, *first++);
 			}
 		}
 		
@@ -260,6 +257,7 @@ namespace ft {
 			_start = new_start;
 		}
 		
+		//insert range
 		template <class InputIterator>
 		void insert(iterator position, InputIterator first, InputIterator last,
 					typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = ft_nullptr) {
@@ -292,7 +290,7 @@ namespace ft {
 					_alloc.construct(new_start + pos + i, *(&*first++));
 				for (size_type i = 0; i < this->size() - pos; ++i)
 					_alloc.construct(new_start + pos + num + i, *(_start + pos + i));
-			} catch(std::exception &e) {
+			} catch (std::exception &e) {
 				for (size_type i = 0; i < pos; ++i)
 					_alloc.destroy(new_start + i);
 				for (size_type i = 0; i < num; ++i)
@@ -312,7 +310,11 @@ namespace ft {
 		
 		void push_back(const value_type& val) {
 			if (_end == _capacity) {
-				this->reserve((this->size() + 2) * 2);
+				size_type size = this->size();
+				if (size == 0)
+					this->reserve(1);
+				else
+					this->reserve(2 * size);
 			}
 			_alloc.construct(_end, val);
 			_end++;
@@ -341,10 +343,10 @@ namespace ft {
 		}
 		
 		void swap(vector& other) {
-			pointer			tmp_start = _start;
-			pointer			tmp_end = _end;
-			pointer			tmp_capacity = _capacity;
-			allocator_type	tmp_alloc = _alloc;
+			pointer			tmp_start = this->_start;
+			pointer			tmp_end = this->_end;
+			pointer			tmp_capacity = this->_capacity;
+			allocator_type	tmp_alloc = this->_alloc;
 			
 			_start = other._start;
 			_end = other._end;
@@ -353,7 +355,7 @@ namespace ft {
 			
 			other._start = tmp_start;
 			other._end = tmp_end;
-			other._capa_end = tmp_capacity;
+			other._capacity = tmp_capacity;
 			other._alloc = tmp_alloc;
 		}
 		
@@ -381,8 +383,8 @@ namespace ft {
 		while (first1 != lhs.end()) {
 			if (*first1 != *first2)
 				return false;
-			first1++;
-			first2++;
+			++first1;
+			++first2;
 		}
 		return (true);
 	}
@@ -403,6 +405,12 @@ namespace ft {
 	
 	template <class T, class Alloc>
 	bool operator>=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return !(lhs < rhs); }
+	
+	//swap 매개변수 2개짜리
+	template <class T, class Alloc>
+	void swap(vector<T, Alloc>& lhs, vector<T, Alloc>& rhs) {
+		lhs.swap(rhs);
+	}
 }
 
 #endif //FT_CONTAINERS_VECTOR_HPP
