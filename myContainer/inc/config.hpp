@@ -197,7 +197,7 @@ namespace ft {
 		pair() : first(), second() {}
 		
 		template<class U, class V>
-		pair(const pair<U,V>& p) : first(p.first), second(p.second) {}
+		pair(const pair<U,V> &p) : first(p.first), second(p.second) {}
 		
 		pair(const first_type& a, const second_type& b) : first(a), second(b) {}
 		
@@ -208,6 +208,8 @@ namespace ft {
 			}
 			return *this;
 		}
+		
+		~pair() {}
 	};
 	
 	template <class T1,class T2>

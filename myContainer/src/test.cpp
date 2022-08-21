@@ -9,6 +9,7 @@
 #include "../ft_containers-unit-test/sources/vector_tests/swap().cpp"
 #include "../ft_containers-unit-test/sources/vector_tests/insert(range).cpp"
 #include <map>
+#include "../ft_containers-unit-test/sources/map_tests/compare class.cpp"
 
 #define	_vector 			ft::vector
 #define	_stack	 			ft::stack
@@ -190,20 +191,25 @@ int main(void) {
 	//	std::cout << "ok" << std::endl;
 	std::cout << "false" << std::endl;
 	std::cout << "=======================assign test=========================" << std::endl;
-	if (assign_test(test) == assign_test(standard))
-		std::cout << "ok" << std::endl;
+	//if (assign_test(test) == assign_test(standard))
+	//	std::cout << "ok" << std::endl;
 	std::cout << "=======================swap test=========================" << std::endl;
 	//std::vector<int> my_result = swap_test(test);
 	//std::vector<int> std_result = swap_test(standard);
 	//if (my_result == std_result)
 	//	std::cout << "swap is ok" << std::endl;
 	
-	std::cout << "=======================insert test=========================" << std::endl;
-	ft::vector<int> insert_myv;
-	std::vector<int> insert_stdv;
-	std::vector<int> my_insert = insert_test_3(insert_myv);
-	std::vector<int> std_insert = insert_test_3(insert_stdv);
-	if (my_insert == std_insert)
-		std::cout << "insert ok" << std::endl;
-	
+	//std::cout << "=======================insert test=========================" << std::endl;
+	//ft::vector<int> insert_myv;
+	//std::vector<int> insert_stdv;
+	//std::vector<int> my_insert = insert_test_3(insert_myv);
+	//std::vector<int> std_insert = insert_test_3(insert_stdv);
+	//if (my_insert == std_insert)
+	//	std::cout << "insert ok" << std::endl;
+	std::cout << "=======================map test=========================" << std::endl;
+	ft::map<int, int> mym;
+	std::map<int, int> myit;
+	if (comparator_test(mym) == comparator_test(myit))
+		std::cout << "compare test is ok" << std::endl;
+	mym.insert(ft::make_pair(1, 2));
 }

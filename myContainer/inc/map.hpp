@@ -53,6 +53,10 @@ namespace ft
 			return (__node->_value);
 		}
 		
+		pointer operator->() const {
+			return (&(__node)->_value);
+		}
+		
 		map_iterator &operator++() {
 			__node = next_node<node_ptr>(__node);
 			return *this;
@@ -107,7 +111,7 @@ namespace ft
 		typedef map_iterator<T>							map_iterator;
 		
 	private:
-		typedef typename avl_node<T>::const_node_ptr	node_ptr;
+		typedef typename avl_node<T>::node_ptr			node_ptr;
 		node_ptr 										__node;
 		
 	public:
@@ -148,11 +152,11 @@ namespace ft
 		}
 		
 		bool operator==(const const_map_iterator &iter) const {
-			return (__node == iter._node);
+			return (__node == iter.__node);
 		}
 		
 		bool operator!=(const const_map_iterator &iter) const {
-			return (__node != iter._node);
+			return (__node != iter.__node);
 		}
 		
 	};
@@ -178,7 +182,7 @@ namespace ft
 		//typedefs
 		typedef Key												key_type;
 		typedef T												mapped_type;
-		typedef ft::pair<const key_type, mapped_type>			value_type;
+		typedef ft::pair<const key_type, mapped_type>					value_type;
 		typedef Compare											key_compare;
 		typedef Alloc											allocator_type;
 		typedef size_t											size_type;
@@ -236,10 +240,11 @@ namespace ft
 		
 		//copy
 		map(const map& other)
-		: __comp(other.__comp), __alloc(other.__alloc), __tree(other.__tree)
-		{}
+		: __comp(other.__comp), __alloc(other.__alloc), __tree(other.__tree) {
+			insert(other.begin(), other.end());
+		}
 		
-		map& operator=(const map& other) {
+		map &operator=(const map &other) {
 			if (this != &other) {
 				clear();
 				insert(other.begin(), other.end());
@@ -273,7 +278,7 @@ namespace ft
 		}
 		
 		const_iterator end() const {
-			return const_iterator(--__tree.get_end_node());
+			return const_iterator(__tree.get_end_node());
 		}
 		
 		reverse_iterator rbegin() {
@@ -347,7 +352,7 @@ namespace ft
 		template <class InputIterator>
 		void insert(InputIterator first, InputIterator last) {
 			while (first != last) {
-				insert(ft::make_pair((*first).first, (*first).second));
+				__tree.insert(*first);
 				first++;
 			}
 		}
