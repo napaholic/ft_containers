@@ -230,7 +230,7 @@ namespace ft {
 					node_ptr tmp = find_min_node(node->_right);
 					
 					node_ptr new_node = __alloc.allocate(1);
-					__alloc.construct(new_node, tmp->_data);
+					__alloc.construct(new_node, tmp->_value);
 					new_node->_parent = node->_parent;
 					new_node->_right = node->_right;
 					new_node->_left = node->_left;
@@ -272,6 +272,7 @@ namespace ft {
 			if (node != ft_nullptr) {
 				empty(node->_left);
 				empty(node->_right);
+				__alloc.destroy(node);
 				__alloc.deallocate(node, 1);
 			}
 			return (ft_nullptr);
@@ -313,10 +314,6 @@ namespace ft {
 				__root->_parent = __end;
 				__end->_left = __root;
 			}
-		}
-		
-		size_type erase(const value_type &k) {
-			return delete_value(k);
 		}
 		
 		node_ptr find_min_node(node_ptr node) const {
