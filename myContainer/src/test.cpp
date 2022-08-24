@@ -10,6 +10,8 @@
 #include "../ft_containers-unit-test/sources/vector_tests/insert(range).cpp"
 #include <map>
 #include "../ft_containers-unit-test/sources/map_tests/compare class.cpp"
+#include "../ft_containers-unit-test/sources/map_tests/constructor.cpp"
+#include "../ft_containers-unit-test/sources/map_tests/at().cpp"
 
 #define	_vector 			ft::vector
 #define	_stack	 			ft::stack
@@ -99,6 +101,7 @@ std::vector<int> resize_test(std::vector<T> vector) {
 
 template <typename T>
 std::vector<int> resize_test(_vector<T> vector) {
+	
 	std::vector<int> v;
 	vector.assign(9900 * _ratio, 1);
 	g_start2 = timer();
@@ -118,6 +121,30 @@ std::vector<int> resize_test(_vector<T> vector) {
 }
 
 int main(void) {
+	ft::map<int, int> mym_contest;
+	
+	std::map<int, int> std_test;
+	fillMap(std_test);
+	std::map<int, int>::iterator std_iter = std_test.begin();
+	std::map<int, int>::iterator std_iter_end = std_test.end();
+	std_iter_end--;
+	
+	ft::map<int, int> ft_constructor_test;
+	ft::map<int, int> *pointer;
+	std::map<int, int> std_constructor_test;
+	std::vector<int> con_ft_result;
+	std::vector<int> con_std_result;
+	con_std_result = copy_constructor_test(std_constructor_test);
+	con_ft_result = copy_constructor_test(ft_constructor_test);
+	if (con_ft_result == con_std_result)
+		std::cout << "constructor ok" << std::endl;
+	
+	ft::map<int, int> ft_destructor_test;
+	ft_destructor_test.insert(ft::make_pair(1, 2));
+	ft_destructor_test.erase(ft_destructor_test.begin());
+	pointer = &ft_destructor_test;
+	
+	
 	std::map<int, int> t;
 	t.insert(std::make_pair(1, 4));
 	t.insert(std::make_pair(2, 3));
@@ -165,12 +192,12 @@ int main(void) {
 	my[0] = 1;
 	my[0] = 2;
 	my[0] = 3;
-	ft::map<int, int>::iterator iter2 = my.end();
-	std::cout << &*iter2 << std::endl;
-	iter2--;
-	std::cout << &*iter2 << std::endl;
-	std::cout << my.rbegin()->second << std::endl;
-	std[0] = 1;
+	//ft::map<int, int>::iterator iter2 = my.end();
+	//std::cout << &*iter2 << std::endl;
+	//iter2--;
+	//std::cout << &*iter2 << std::endl;
+	//std::cout << my.rbegin()->second << std::endl;
+	//std[0] = 1;
 	ft::vector<int> myv;
 	const int a = 4;
 	myv.push_back(3);
@@ -209,7 +236,10 @@ int main(void) {
 	std::cout << "=======================map test=========================" << std::endl;
 	ft::map<int, int> mym;
 	std::map<int, int> myit;
+
 	if (comparator_test(mym) == comparator_test(myit))
 		std::cout << "compare test is ok" << std::endl;
-	mym.insert(ft::make_pair(1, 2));
+	
+	std::cout << "=======================at test=========================" << std::endl;
+	at_test(mym);
 }
