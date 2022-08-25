@@ -87,7 +87,7 @@ namespace ft {
 			return (*this);
 		}
 		
-		random_access_iterator&		operator++(int) {
+		random_access_iterator		operator++(int) {
 			random_access_iterator tmp_iter = (*this);
 			++__ptr;
 			return (tmp_iter);

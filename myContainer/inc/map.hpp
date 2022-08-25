@@ -43,7 +43,8 @@ namespace ft
 		
 		node_ptr base() const { return (__node); }
 		
-		map_iterator& operator=(const map_iterator& ref) {
+		template <typename U>
+		map_iterator& operator=(const map_iterator<U>& ref) {
 			if (this != &ref)
 				__node = ref.__node;
 			return (*this);
@@ -177,13 +178,21 @@ namespace ft
 			return (tmp);
 		}
 		
-		bool operator==(const const_map_iterator &iter) const {
+		bool operator==(const map_iterator &iter) const {
 			return (__node == iter.__node);
 		}
-		
-		bool operator!=(const const_map_iterator &iter) const {
+		bool operator!=(const map_iterator &iter) const {
 			return (__node != iter.__node);
 		}
+		
+		bool operator==(const const_map_iterator<T>& ref) const {
+			return (__node == ref.__node);
+		}
+		
+		bool operator!=(const const_map_iterator<T>& ref) const {
+			return (__node != ref.__node);
+		}
+		
 	private:
 		node_ptr min_value_node(node_ptr node) {
 			if (node->_left == ft_nullptr)
@@ -282,14 +291,13 @@ namespace ft
 		//copy
 		map(const map& other)
 		: __comp(other.__comp), __alloc(other.__alloc), __tree(other.__tree) {
-			insert(other.begin(), other.end());
 			__allocatortest = 1;
 		}
 		
 		map &operator=(const map &other) {
 			if (this != &other) {
 				clear();
-				insert(other.begin(), other.end());
+				__tree = other.__tree;
 			}
 			__allocatortest = 1;
 			return *this;
@@ -484,7 +492,14 @@ namespace ft
 		}
 		
 		const_iterator lower_bound(const key_type &key) const {
-			return (lower_bound(key));
+			iterator it_idx = this->begin();
+			iterator it_end = this->end();
+			while (it_idx != it_end) {
+				if (__comp(it_idx->first, key) == false)
+					break;
+				++it_idx;
+			}
+			return (const_iterator)it_idx;
 		}
 		
 		iterator upper_bound(const key_type &key) {

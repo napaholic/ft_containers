@@ -266,13 +266,6 @@ int main(void) {
 	if (my_vector.get_alloc_test())
 		std::cout << "vector allocator test is ok" << std::endl;
 	
-	//std::cout << "=======================insert test=========================" << std::endl;
-	//ft::vector<int> insert_myv;
-	//std::vector<int> insert_stdv;
-	//std::vector<int> my_insert = insert_test_3(insert_myv);
-	//std::vector<int> std_insert = insert_test_3(insert_stdv);
-	//if (my_insert == std_insert)
-	//	std::cout << "insert ok" << std::endl;
 	std::cout << "=======================map test=========================" << std::endl;
 	std::cout << "=======================assign overload test=========================" << std::endl;
 	ft::map<int, int> my_assign_overload;

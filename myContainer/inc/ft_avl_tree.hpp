@@ -26,7 +26,7 @@ namespace ft {
 		
 		avl_node(const T &value, avl_node *parent = ft_nullptr,
 				 avl_node *left = ft_nullptr, avl_node *right = ft_nullptr, size_type height = 1)
-				: _value(value), _parent(parent), _left(left), _right(right), _height(height), _alloc_chk(1) {}
+				: _value(value), _right(right), _left(left), _parent(parent), _height(height), _alloc_chk(1) {}
 		
 		avl_node(const avl_node &ref)
 				: _value(ref._value),
