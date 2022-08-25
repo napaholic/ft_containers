@@ -34,18 +34,22 @@ namespace ft {
 		pointer 		_end;
 		pointer			_capacity;
 		allocator_type	_alloc;
+		int				_allocatortest;
 
 	public:
 		// Constructors===========================================================================
 
 		explicit vector(const allocator_type& alloc = allocator_type())
 			: _start(ft_nullptr), _end(ft_nullptr), _capacity(ft_nullptr), _alloc(alloc)
-		{}
+		{
+			_allocatortest = 1;
+		}
 
 		explicit vector(size_type n, const value_type& value = value_type(),
 						const allocator_type& alloc = allocator_type())
 			: _start(ft_nullptr), _end(ft_nullptr), _capacity(ft_nullptr), _alloc(alloc)
 		{
+			_allocatortest = 1;
 			_start = _alloc.allocate(n);
 			_end = _start;
 			_capacity = _start + n;
@@ -58,6 +62,7 @@ namespace ft {
 			   typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = ft_nullptr)
 			   : _alloc(alloc)
 		{
+			_allocatortest = 1;
 			size_type n = ft::distance(first, last);
 			_start = _alloc.allocate(n);
 			_end = _start;
@@ -70,6 +75,7 @@ namespace ft {
 		
 		vector(const vector& other) : _start(ft_nullptr), _end(ft_nullptr), _capacity(ft_nullptr), _alloc(other._alloc)
 		{
+			_allocatortest = 1;
 			size_type n = other.size();
 			_start = _alloc.allocate(n);
 			_end = _start;
@@ -86,6 +92,7 @@ namespace ft {
 				this->clear();
 				insert(_start, other.begin(), other.end());
 			}
+			_allocatortest = 1;
 			return (*this);
 		}
 		
@@ -103,6 +110,10 @@ namespace ft {
 		const_reverse_iterator	rbegin() const { return (reverse_iterator(_end)); }
 		reverse_iterator		rend() { return (reverse_iterator(_start)); }
 		const_reverse_iterator	rend() const { return (reverse_iterator(_start)); }
+		value_type*				data() { return (_start); }
+		int get_alloc_test() {
+			return _allocatortest;
+		}
 		
 		// Capacity
 		bool		empty() const { return (_start == _end); }

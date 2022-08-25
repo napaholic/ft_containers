@@ -145,7 +145,7 @@ namespace ft
 		
 		const_map_iterator(node_ptr node) : __node(node) {}
 		
-		const_map_iterator(const map_iterator &ref) : __node(ref.__node) {}
+		const_map_iterator(const map_iterator &ref) : __node(ref.base()) {}
 		
 		reference operator*() const {
 			return (__node->_value);
@@ -254,9 +254,10 @@ namespace ft
 		
 	//member variables
 	private:
-		value_compare 													__comp;
+		key_compare 													__comp;
 		allocator_type 													__alloc;
 		AvlTree<value_type, value_compare> 								__tree;
+		int																__allocatortest;
 	//=================
 	
 	public:
@@ -265,7 +266,9 @@ namespace ft
 		explicit map(const key_compare &comp = key_compare(),
 					 const allocator_type &alloc = allocator_type())
 		: __comp(comp), __alloc(alloc), __tree(value_compare(__comp))
-		{}
+		{
+			__allocatortest = 1;
+		}
 	
 		//range
 		template <typename InputIterator>
@@ -273,12 +276,14 @@ namespace ft
 			const allocator_type& alloc = allocator_type())
 		: __comp(comp), __alloc(alloc), __tree(value_compare(__comp)) {
 			this->insert(first, last);
+			__allocatortest = 1;
 		}
 		
 		//copy
 		map(const map& other)
 		: __comp(other.__comp), __alloc(other.__alloc), __tree(other.__tree) {
 			insert(other.begin(), other.end());
+			__allocatortest = 1;
 		}
 		
 		map &operator=(const map &other) {
@@ -286,6 +291,7 @@ namespace ft
 				clear();
 				insert(other.begin(), other.end());
 			}
+			__allocatortest = 1;
 			return *this;
 		}
 	//==================
@@ -361,8 +367,11 @@ namespace ft
 		
 		mapped_type& at( const key_type& k ) {
 			node_ptr found = __tree.find(ft::make_pair(k, mapped_type()));
-			return *found;
+			if (found == ft_nullptr)
+				throw "out of range map::at";
+			return (found->_value.second);
 		}
+		
 		const mapped_type& at( const key_type& k ) const {
 			return at(k);
 		}
@@ -373,13 +382,13 @@ namespace ft
 	
 	//insert
 		pair<iterator, bool> insert(const value_type &val) {
-		 node_ptr found = __tree.find(val);
+			node_ptr found = __tree.find(val);
 		 
-		 if (found == ft_nullptr) {
-			 __tree.insert(val);
-			 return ft::make_pair(iterator(__tree.find(val)), true);
-		 }
-		 return ft::make_pair(iterator(found), false);
+			if (found == ft_nullptr) {
+				__tree.insert(val);
+				return ft::make_pair(iterator(__tree.find(val)), true);
+			}
+			return ft::make_pair(iterator(found), false);
 		}
 		
 		iterator insert(iterator position, const value_type &val)
@@ -403,6 +412,11 @@ namespace ft
 		}
 	
 	//==================
+	
+	//getter
+	int get_alloc_test() {
+		return __allocatortest;
+	}
 	
 	//erase
 		void erase(iterator position) {
@@ -459,51 +473,40 @@ namespace ft
 		
 		//bounds
 		iterator lower_bound(const key_type &key) {
-			value_type val = ft::make_pair(key, mapped_type());
-			node_ptr cur = __tree.find_min_node(__tree.get_root_node());
-			
-			while (cur && cur != __tree.get_root_node()) {
-				if (!__comp(cur->_value, key))
-					return iterator(cur);
-				cur = next_node(cur);
+			iterator it_idx = this->begin();
+			iterator it_end = this->end();
+			while (it_idx != it_end) {
+				if (__comp(it_idx->first, key) == false)
+					break;
+				++it_idx;
 			}
-			return iterator(__tree.get_root_node());
+			return it_idx;
 		}
 		
 		const_iterator lower_bound(const key_type &key) const {
-			value_type val = ft::make_pair(key, mapped_type());
-			node_ptr cur = __tree.find_min_node(__tree.get_root_node());
-			
-			while (cur && cur != __tree.get_root_node()) {
-				if (!__comp(cur->_value, key))
-					return const_iterator(cur);
-				cur = next_node(cur);
-			}
-			return const_iterator(__tree.get_root_node());
+			return (lower_bound(key));
 		}
 		
 		iterator upper_bound(const key_type &key) {
-			value_type val = ft::make_pair(key, mapped_type());
-			node_ptr cur = __tree.find_min_node(__tree.get_root_node());
-			
-			while (cur && cur != __tree.get_root_node()) {
-				if (__comp(cur->_value, key))
-					return iterator(cur);
-				cur = next_node(cur);
+			iterator it_idx = this->begin();
+			iterator it_end = this->end();
+			while (it_idx != it_end) {
+				if (__comp(key, it_idx->first) == true)
+					break;
+				++it_idx;
 			}
-			return iterator(__tree.get_root_node());
+			return it_idx;
 		}
 		
 		const_iterator upper_bound(const key_type &key) const {
-			value_type val = ft::make_pair(key, mapped_type());
-			node_ptr cur = __tree.find_min_node(__tree.get_root_node());
-			
-			while (cur && cur != __tree.get_root_node()) {
-				if (__comp(cur->_value, key))
-					return const_iterator(cur);
-				cur = next_node(cur);
+			iterator it_idx = this->begin();
+			iterator it_end = this->end();
+			while (it_idx != it_end) {
+				if (__comp(key, it_idx->first) == true)
+					break;
+				++it_idx;
 			}
-			return const_iterator(__tree.get_root_node());
+			return it_idx;
 		}
 	
 		//range
