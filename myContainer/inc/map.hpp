@@ -50,6 +50,12 @@ namespace ft
 			return (*this);
 		}
 		
+		map_iterator& operator=(const map_iterator& ref) {
+			if (this != &ref)
+				__node = ref.__node;
+			return (*this);
+		}
+		
 		reference operator*() const {
 			return (__node->_value);
 		}
@@ -148,6 +154,20 @@ namespace ft
 		
 		const_map_iterator(const map_iterator &ref) : __node(ref.base()) {}
 		
+		node_ptr base() const { return (__node); }
+		
+		const_map_iterator& operator=(const const_map_iterator& ref) {
+			if (this != &ref)
+				__node = ref.base();
+			return (*this);
+		}
+		
+		const_map_iterator& operator=(const map_iterator& ref) {
+			if (this != &ref)
+				__node = ref.base();
+			return (*this);
+		}
+		
 		reference operator*() const {
 			return (__node->_value);
 		}
@@ -179,18 +199,18 @@ namespace ft
 		}
 		
 		bool operator==(const map_iterator &iter) const {
-			return (__node == iter.__node);
+			return (__node == iter.base());
 		}
 		bool operator!=(const map_iterator &iter) const {
-			return (__node != iter.__node);
+			return (__node != iter.base());
 		}
 		
 		bool operator==(const const_map_iterator<T>& ref) const {
-			return (__node == ref.__node);
+			return (__node == ref.base());
 		}
 		
 		bool operator!=(const const_map_iterator<T>& ref) const {
-			return (__node != ref.__node);
+			return (__node != ref.base());
 		}
 		
 	private:
@@ -265,7 +285,7 @@ namespace ft
 	private:
 		key_compare 													__comp;
 		allocator_type 													__alloc;
-		AvlTree<value_type, value_compare> 								__tree;
+		AvlTree<value_type, value_compare, allocator_type> 				__tree;
 		int																__allocatortest;
 	//=================
 	
@@ -273,31 +293,34 @@ namespace ft
 	//constructors
 		//default
 		explicit map(const key_compare &comp = key_compare(),
-					 const allocator_type &alloc = allocator_type())
-		: __comp(comp), __alloc(alloc), __tree(value_compare(__comp))
+					 const allocator_type& alloc = allocator_type())
+		: __comp(comp), __alloc(alloc), __tree(value_compare(__comp), __alloc)
 		{
 			__allocatortest = 1;
 		}
 	
 		//range
 		template <typename InputIterator>
-		map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
+		map(InputIterator first, InputIterator last,
+			const key_compare& comp = key_compare(),
 			const allocator_type& alloc = allocator_type())
-		: __comp(comp), __alloc(alloc), __tree(value_compare(__comp)) {
+		: __comp(comp), __alloc(alloc), __tree(value_compare(__comp), __alloc) {
 			this->insert(first, last);
 			__allocatortest = 1;
 		}
 		
 		//copy
 		map(const map& other)
-		: __comp(other.__comp), __alloc(other.__alloc), __tree(other.__tree) {
+		: __comp(other.__comp), __alloc(other.__alloc), __tree(value_compare(__comp)) {
 			__allocatortest = 1;
+			insert(other.begin(), other.end());
 		}
 		
 		map &operator=(const map &other) {
 			if (this != &other) {
 				clear();
-				__tree = other.__tree;
+				__comp = other.__comp;
+				insert(other.begin(), other.end());
 			}
 			__allocatortest = 1;
 			return *this;
@@ -392,7 +415,7 @@ namespace ft
 		pair<iterator, bool> insert(const value_type &val) {
 			node_ptr found = __tree.find(val);
 		 
-			if (found == ft_nullptr) {
+			if (found == __tree.get_end_node()) {
 				__tree.insert(val);
 				return ft::make_pair(iterator(__tree.find(val)), true);
 			}
@@ -403,7 +426,7 @@ namespace ft
 		{
 			node_ptr found = __tree.find(val);
 			
-			if (found == ft_nullptr) {
+			if (found == __tree.get_end_node()) {
 				insert(val);
 				return iterator(__tree.find(val));
 			}
@@ -429,11 +452,11 @@ namespace ft
 	//erase
 		void erase(iterator position) {
 			if (position.base() != ft_nullptr)
-				__tree.erase(*position);
+				__tree.erase(ft::make_pair(position->first, position->second));
 		}//ft::make_pair(position->first, position->second)
 		
 		size_type erase(const key_type &key) {
-			if (__tree.find(ft::make_pair(key, mapped_type())) == ft_nullptr)
+			if (__tree.find(ft::make_pair(key, mapped_type())) == __tree.get_end_node())
 				return 0;
 			__tree.erase(ft::make_pair(key, mapped_type()));
 			return 1;
@@ -474,7 +497,7 @@ namespace ft
 		
 		//count
 		size_type count(const key_type &key) const {
-			if (__tree.find(ft::make_pair(key, mapped_type())) == ft_nullptr)
+			if (__tree.find(ft::make_pair(key, mapped_type())) == __tree.get_end_node())
 				return 0;
 			return 1;
 		}
@@ -492,8 +515,8 @@ namespace ft
 		}
 		
 		const_iterator lower_bound(const key_type &key) const {
-			iterator it_idx = this->begin();
-			iterator it_end = this->end();
+			const_iterator it_idx = this->begin();
+			const_iterator it_end = this->end();
 			while (it_idx != it_end) {
 				if (__comp(it_idx->first, key) == false)
 					break;
@@ -514,8 +537,8 @@ namespace ft
 		}
 		
 		const_iterator upper_bound(const key_type &key) const {
-			iterator it_idx = this->begin();
-			iterator it_end = this->end();
+			const_iterator it_idx = this->begin();
+			const_iterator it_end = this->end();
 			while (it_idx != it_end) {
 				if (__comp(key, it_idx->first) == true)
 					break;

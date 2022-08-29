@@ -203,8 +203,8 @@ namespace ft {
 		
 		pair& operator=(const pair& other) {
 			if (this != &other) {
-				this->first = other.first;
-				this->second = other.second;
+				first = other.first;
+				second = other.second;
 			}
 			return *this;
 		}

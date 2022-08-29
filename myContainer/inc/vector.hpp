@@ -132,28 +132,42 @@ namespace ft {
 				_start = _alloc.allocate(n);
 				_end = _start;
 				_capacity = _start + n;
-				while (prev_start != prev_end)
-				{
+				while (prev_start != prev_end) {
 					_alloc.construct(_end, *prev_start);
-					_end++;
-					prev_start++;
+					_alloc.destroy(prev_start);
+					++_end;
+					++prev_start;
 				}
 				_alloc.deallocate(prev_start - prev_size, prev_capa);
 			}
 		}
 		
 		void		resize(size_type n, value_type val = value_type()) {
+//			if (n > this->max_size())
+//				throw std::length_error("ft::vector::resize: n > _alloc.max_size()");
+//			if (this->size() == n)
+//				return;
+//			for (size_type i = n; i < this->size(); i++)
+//				this->_alloc.destroy(&this->_start[i]);
+//			if (n > this->capacity())
+//				this->reserve(n);
+//			for (size_type i = this->size(); i < n; i++)
+//				this->_alloc.construct(&this->_start[i], val);
+//			this->_end = _start + n;
+			
 			if (n > this->max_size())
 				throw std::length_error("ft::vector::resize: n > _alloc.max_size()");
 			if (this->size() == n)
 				return;
-			for (size_type i = n; i < this->size(); i++)
-				this->_alloc.destroy(&this->_start[i]);
-			if (n > this->capacity())
-				this->reserve(n);
-			for (size_type i = this->size(); i < n; i++)
-				this->_alloc.construct(&this->_start[i], val);
-			this->_end = _start + n;
+			if (n < this->size()) {
+				while (this->size() != n)
+					pop_back();
+			} else {
+				if (this->capacity() * 2 < n)
+					reserve(n);
+				while (this->size() != n)
+					push_back(val);
+			}
 		}
 		
 		// Element Access
@@ -182,12 +196,12 @@ namespace ft {
 			this->clear();
 			size_type size = ft::distance(first, last);
 			if (size <= this->capacity()) {
-				while (&*first != &*last)
-					_alloc.construct(_end++, *first++);
+				for (; &*first != &*last; ++first, ++_end)
+					_alloc.construct(_end, *first);
 			} else {
 				this->reserve(size);
-				while (&*first != &*last)
-					_alloc.construct(_end++, *first++);
+				for (; &*first != &*last; ++first, ++_end)
+					_alloc.construct(_end, *first);
 			}
 		}
 		
@@ -301,7 +315,7 @@ namespace ft {
 					_alloc.construct(new_start + pos + i, *(&*first++));
 				for (size_type i = 0; i < this->size() - pos; ++i)
 					_alloc.construct(new_start + pos + num + i, *(_start + pos + i));
-			} catch (std::exception &e) {
+			} catch (...) {
 				for (size_type i = 0; i < pos; ++i)
 					_alloc.destroy(new_start + i);
 				for (size_type i = 0; i < num; ++i)
@@ -310,7 +324,7 @@ namespace ft {
 					_alloc.destroy(new_start + pos + num + i);
 				_alloc.deallocate(new_start, alloced_size);
 				_capacity = prev_capa_ptr;
-				throw e;
+				throw;
 			}
 			for (size_type i = 0; i < this->size(); ++i)
 				_alloc.destroy(_start + i);
@@ -354,16 +368,19 @@ namespace ft {
 		}
 		
 		void swap(vector& other) {
-			pointer			tmp_start = this->_start;
-			pointer			tmp_end = this->_end;
-			pointer			tmp_capacity = this->_capacity;
-			allocator_type	tmp_alloc = this->_alloc;
+			pointer			tmp_start = _start;
+			pointer			tmp_end = _end;
+			pointer			tmp_capacity = _capacity;
+			allocator_type	tmp_alloc = _alloc;
+			int 			tmp_alloc_chk = _allocatortest;
 			
 			_start = other._start;
 			_end = other._end;
 			_capacity = other._capacity;
 			_alloc = other._alloc;
+			_allocatortest = other._allocatortest;
 			
+			other._allocatortest = tmp_alloc_chk;
 			other._start = tmp_start;
 			other._end = tmp_end;
 			other._capacity = tmp_capacity;

@@ -1,6 +1,6 @@
 NAME		=	test
 CXX			=	c++
-CXXFLAGS	=	-g #-Wall -Werror -Wextra -std=c++98
+CXXFLAGS	=	-g -Wall -Werror -Wextra -std=c++98
 RM			=	rm
 RMFLAGS		=	-rf
 
@@ -9,7 +9,7 @@ INC_DIR		=	./inc
 OBJ_DIR		=	./obj
 
 INCS		=	$(wildcard $(INC_DIR)/*.hpp)
-SRCS		=	$(wildcard $(SRC_DIR)/*.cpp)
+SRCS		=	$(SRC_DIR)/test.cpp
 OBJS		=	$(addprefix $(OBJ_DIR)/, $(notdir $(SRCS:.cpp=.o)))
 
 vpath %.cpp $(SRC_DIR) $(INC_DIR)

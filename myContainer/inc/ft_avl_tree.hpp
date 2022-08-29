@@ -30,9 +30,9 @@ namespace ft {
 		
 		avl_node(const avl_node &ref)
 				: _value(ref._value),
-				  _parent(ref._parent),
-				  _left(ref._left),
 				  _right(ref._right),
+				  _left(ref._left),
+				  _parent(ref._parent),
 				  _height(ref._height),
 				  _alloc_chk(1) {}
 		
@@ -110,13 +110,15 @@ namespace ft {
 	
 	template<typename T, typename Compare, typename Alloc = std::allocator<T> >
 	class AvlTree {
+	private:
+		typedef ft::avl_node<T>											node_type;
 	
 	public:
 		typedef T														value_type;
 		typedef Compare 												value_compare;
 		typedef typename avl_node<value_type>::node_ptr 				node_ptr;
 		typedef typename avl_node<value_type>::size_type 				size_type;
-		typedef typename Alloc::template rebind<avl_node<T> >::other	alloc_type;
+		typedef typename Alloc::template rebind<node_type>::other		alloc_type;
 	
 	private:
 		node_ptr														__root;
@@ -124,8 +126,49 @@ namespace ft {
 		size_type														__size;
 		alloc_type														__alloc;
 		value_compare													__comp;
+		int																__alloc_chk;
+	
+	public:
+		//constructor
+		AvlTree(value_compare const& c, alloc_type const& alloc) : __alloc(alloc), __comp(c) {
+			__root = ft_nullptr;
+			__size = 0;
+			__end = __alloc.allocate(1);
+			__alloc.construct(__end, node_type());
+			__alloc_chk = 1;
+		}
+		AvlTree(value_compare const& c) : __comp(c) {
+			__root = ft_nullptr;
+			__size = 0;
+			__end = __alloc.allocate(1);
+			__alloc.construct(__end, node_type());
+			__alloc_chk = 1;
+		}
 		
+//		AvlTree(const AvlTree &ref)
+//		: __comp(ref.__comp), __alloc(ref.__alloc), __{
+//			__root = ref;
+//			__size = 0;
+//			__end = __alloc.allocate(1);
+//			__alloc.construct(__end, node_type());
+//			__alloc_chk = 1;
+//		}
 		
+		//destructor
+		~AvlTree() {
+			__alloc_chk = 0;
+			__root = empty(__root);
+			//empty(__end);
+			//__alloc.destroy(__end);
+			if (__end->_left)
+				__end->_left = ft_nullptr;
+			if (__end->_alloc_chk) {
+				__alloc.destroy(__end);
+				__alloc.deallocate(__end, 1);
+			}
+			//__alloc.deallocate(__end, 1);
+		}
+	private:
 		size_type max(size_type a, size_type b) {
 			return (a > b) ? a : b;
 		}
@@ -214,9 +257,17 @@ namespace ft {
 					if (!tmp1) {
 						tmp1 = node;
 						node = ft_nullptr;
+						if (tmp1->_parent->_left == tmp1)
+							tmp1->_parent->_left = ft_nullptr;
+						else
+							tmp1->_parent->_right = ft_nullptr;
 					} else {
 						node_ptr tmp2 = node;
 						tmp1->_parent = node->_parent;
+						if (tmp2->_parent->_left == tmp2)
+							tmp2->_parent->_left = tmp1;
+						else
+							tmp2->_parent->_right = tmp1;
 						node = tmp1;
 						tmp1 = tmp2;
 					}
@@ -224,9 +275,34 @@ namespace ft {
 					__alloc.deallocate(tmp1, 1);
 					__size -= 1;
 				} else {
-					node_ptr tmp = find_min_node(node->_right);
+					node_ptr tmp_min_node = find_min_node(node->_right);
+					if (tmp_min_node->_right) {
+						tmp_min_node->_right->_parent = tmp_min_node->_parent;
+						if (tmp_min_node->_parent->_left == tmp_min_node)
+							tmp_min_node->_parent->_left = tmp_min_node->_right;
+						else
+							tmp_min_node->_parent->_right = tmp_min_node->_right;
+					}
+					tmp_min_node->_parent = node->_parent;
+					tmp_min_node->_left = node->_left;
+					if (node->_right == tmp_min_node)
+						tmp_min_node->_right = ft_nullptr;
+					else
+						tmp_min_node->_right = node->_right;
+					if (node->_parent->_left == node)
+						node->_parent->_left = tmp_min_node;
+					else
+						node->_parent->_right = tmp_min_node;
+					if (node->_left != tmp_min_node)
+						node->_left->_parent = tmp_min_node;
+					if (node->_right != tmp_min_node)
+						node->_right->_parent = tmp_min_node;
+					__alloc.destroy(node);
+					__alloc.deallocate(node, 1);
+					__size -= 1;
+					node = tmp_min_node;
 					
-					node_ptr new_node = __alloc.allocate(1);
+					/*node_ptr new_node = __alloc.allocate(1);
 					__alloc.construct(new_node, tmp->_value);
 					new_node->_parent = node->_parent;
 					new_node->_right = node->_right;
@@ -236,7 +312,11 @@ namespace ft {
 					__alloc.destroy(node);
 					__alloc.deallocate(node, 1);
 					node = new_node;
-					node->_right = delete_node(node->_right, tmp->_value);
+					__alloc.construct(node, tmp->_value);
+					node->_parent = tmp_parent;
+					node->_left = tmp_left;
+					node->_right = tmp_right;
+					node->_right = delete_node(node->_right, tmp->_value);*/
 				}
 			}
 			if (node == ft_nullptr)
@@ -265,8 +345,10 @@ namespace ft {
 			if (node != ft_nullptr) {
 				empty(node->_left);
 				empty(node->_right);
-				__alloc.destroy(node);
-				__alloc.deallocate(node, 1);
+				if (node->_alloc_chk) {
+					__alloc.destroy(node);
+					__alloc.deallocate(node, 1);
+				}
 				node = ft_nullptr;
 			}
 			return (ft_nullptr);
@@ -283,28 +365,6 @@ namespace ft {
 		}
 	
 	public:
-		//constructor
-		AvlTree(value_compare c) : __comp(c) {
-			__root = ft_nullptr;
-			__size = 0;
-			__end = __alloc.allocate(1);
-			__alloc.construct(__end, value_type());
-		}
-		
-		//destructor
-		~AvlTree() {
-			__root = empty(__root);
-			//empty(__end);
-			//__alloc.destroy(__end);
-			if (__end->_left)
-				__end->_left = ft_nullptr;
-			if (__end->_alloc_chk) {
-				__alloc.destroy(__end);
-				__alloc.deallocate(__end, 1);
-			}
-			//__alloc.deallocate(__end, 1);
-		}
-		//================
 		
 		void insert(value_type data) {
 			__root = insert_node(__root, data);
@@ -367,8 +427,7 @@ namespace ft {
 		node_ptr find(value_type val) const {
 			node_ptr node = find_node(__root, val);
 			if (node == ft_nullptr)
-				return ft_nullptr;
-			//return __end;
+				return this->get_end_node();
 			return node;
 		}
 		
@@ -393,5 +452,58 @@ namespace ft {
 		}
 	};
 }
+
+// Delete a node
+/*
+Node *deleteNode(Node *root, int key) {
+	// Find the node and delete it
+	if (root == NULL)
+		return root;
+	if (key < root->key)
+		root->left = deleteNode(root->left, key);
+	else if (key > root->key)
+		root->right = deleteNode(root->right, key);
+	else {
+		if ((root->left == NULL) || (root->right == NULL)) {
+			Node *temp = root->left ? root->left : root->right;
+			if (temp == NULL) {
+				temp = root;
+				root = NULL;
+			} else
+				*root = *temp;
+			free(temp);
+		} else {
+			Node *temp = nodeWithMimumValue(root->right);
+			root->key = temp->key;
+			root->right = deleteNode(root->right, temp->key);
+		}
+	}
+	
+	if (root == NULL)
+		return root;
+	
+	// Update the balance factor of each node and
+	// balance the tree
+	root->height = 1 + max(height(root->left),
+						   height(root->right));
+	int balanceFactor = getBalanceFactor(root);
+	if (balanceFactor > 1) {
+		if (getBalanceFactor(root->left) >= 0) {
+			return rightRotate(root);
+		} else {
+			root->left = leftRotate(root->left);
+			return rightRotate(root);
+		}
+	}
+	if (balanceFactor < -1) {
+		if (getBalanceFactor(root->right) <= 0) {
+			return leftRotate(root);
+		} else {
+			root->right = rightRotate(root->right);
+			return leftRotate(root);
+		}
+	}
+	return root;
+}*/
 
 #endif //MYCONTAINER_FT_AVL_TREE_HPP

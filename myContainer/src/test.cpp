@@ -85,180 +85,194 @@
 #define	_map 				ft::map
 
 int main(void) {
-	std::cout << "=======================vector test=========================" << std::endl;
-	std::cout << "=======================assign test=========================" << std::endl;
-	std::vector<int> my_assign;
-	std::vector<int> std_assign;
-	if (assign_test(my_assign) == assign_test(std_assign))
-		std::cout << "assign is ok" << std::endl;
+//	std::cout << "=======================vector test=========================" << std::endl;
+//	std::cout << "=======================assign test=========================" << std::endl;
+//	ft::vector<int> my_assign;
+//	std::vector<int> std_assign;
+//	if (assign_test(my_assign) == assign_test(std_assign))
+//		std::cout << "assign is ok" << std::endl;
 	std::cout << "=======================assign_std_test=========================" << std::endl;
-	std::vector<int> my_assign_std;
+	ft::vector<int> my_assign_std;
 	std::vector<int> std_assign_std;
-	if (assign_std_test(my_assign_std) == assign_std_test(std_assign_std))
+	std::vector<int> myresult_assign;
+	std::vector<int> stdresult_assign;
+	myresult_assign = assign_std_test(my_assign_std);
+	stdresult_assign = assign_std_test(std_assign_std);
+	if (myresult_assign == stdresult_assign)
 		std::cout << "assign_std_test is ok" << std::endl;
-	std::cout << "=======================at_test=========================" << std::endl;
-	std::vector<int> my_at_test;
-	std::vector<int> std_at_test;
-	if (at_test(my_at_test) == at_test(std_at_test))
-		std::cout << "at_test is ok" << std::endl;
-	std::cout << "=======================back_test=========================" << std::endl;
-	std::vector<int> my_back_test;
-	std::vector<int> std_back_test;
-	if (back_test(my_back_test) == back_test(std_back_test))
-		std::cout << "back_test is ok" << std::endl;
-	std::cout << "=======================begin_test=========================" << std::endl;
-	std::vector<int> my_begin_test;
-	std::vector<int> std_begin_test;
-	if (begin_test(my_begin_test) == begin_test(std_begin_test))
-		std::cout << "begin_test is ok" << std::endl;
-	std::cout << "=======================capacity_test=========================" << std::endl;
-	std::vector<int> my_capacity_test;
-	std::vector<int> std_capacity_test;
-	if (capacity_test(my_capacity_test) == capacity_test(std_capacity_test))
-		std::cout << "begin_test is ok" << std::endl;
-	std::cout << "=======================clear_test=========================" << std::endl;
-	std::vector<int> my_clear_test;
-	std::vector<int> std_clear_test;
-	if (clear_test(my_clear_test) == clear_test(std_clear_test))
-		std::cout << "clear_test is ok" << std::endl;
-	std::cout << "=======================constructor_std_test=========================" << std::endl;
-	std::vector<int> my_con_test;
-	std::vector<int> std_con_test;
-	if (constructor_std_test(my_con_test) == constructor_std_test(std_con_test))
-		std::cout << "constructor_std_test is ok" << std::endl;
-	std::cout << "=======================constructor_test=========================" << std::endl;
-	std::vector<int> my_constructor_test;
-	std::vector<int> std_constructor_test;
-	if (constructor_test(my_constructor_test) == constructor_test(std_constructor_test))
-		std::cout << "constructor_test is ok" << std::endl;
-	std::cout << "=======================data_test=========================" << std::endl;
-	std::vector<int> my_data_test;
-	std::vector<int> std_data_test;
-	if (data_test(my_data_test) == data_test(std_data_test))
-		std::cout << "data_test is ok" << std::endl;
-	
-	std::cout << "=======================swap test=========================" << std::endl;
-	std::vector<int> my_swap;
-	std::vector<int> std_swap;
-	if (swap_test(my_swap) == swap_test(std_swap))
-		std::cout << "swap is ok" << std::endl;
-	std::cout << "=======================empty_test=========================" << std::endl;
-	std::vector<int> my_empty;
-	std::vector<int> std_empty;
-	if (empty_test(my_empty) == empty_test(std_empty))
-		std::cout << "empty_test is ok" << std::endl;
-	std::cout << "=======================end_test=========================" << std::endl;
-	std::vector<int> my_end_test;
-	std::vector<int> std_end_test;
-	if (end_test(my_end_test) == end_test(std_end_test))
-		std::cout << "end_test is ok" << std::endl;
-	std::cout << "=======================erase_test_range=========================" << std::endl;
-	std::vector<int> my_erase_test_2;
-	std::vector<int> std_erase_test_2;
-	if (erase_test_2(my_erase_test_2) == erase_test_2(std_erase_test_2))
-		std::cout << "erase_test_range is ok" << std::endl;
-	std::cout << "=======================erase_test_value=========================" << std::endl;
-	std::vector<int> my_erase_test_value;
-	std::vector<int> std_erase_test_value;
-	if (erase_test_1(my_erase_test_value) == erase_test_1(std_erase_test_value))
-		std::cout << "erase_test_value is ok" << std::endl;
-	std::cout << "=======================front_test=========================" << std::endl;
-	std::vector<int> my_front_test;
-	std::vector<int> std_front_test;
-	if (front_test(my_front_test) == front_test(std_front_test))
-		std::cout << "front_test is ok" << std::endl;
-	std::cout << "=======================insert_test_fill=========================" << std::endl;
-	std::vector<int> my_insert_test_2;
-	std::vector<int> std_insert_test_2;
-	if (insert_test_2(my_insert_test_2) == insert_test_2(std_insert_test_2))
-		std::cout << "insert_test_fill is ok" << std::endl;
-	std::cout << "=======================insert_test_range=========================" << std::endl;
-	std::vector<int> my_insert_test_range;
-	std::vector<int> std_insert_test_range;
-	if (insert_test_3(my_insert_test_range) == insert_test_3(std_insert_test_range))
-		std::cout << "insert_test_range is ok" << std::endl;
+//	std::cout << "=======================at_test=========================" << std::endl;
+//	ft::vector<int> my_at_test;
+//	std::vector<int> std_at_test;
+//	if (at_test(my_at_test) == at_test(std_at_test))
+//		std::cout << "at_test is ok" << std::endl;
+//	std::cout << "=======================back_test=========================" << std::endl;
+//	ft::vector<int> my_back_test;
+//	std::vector<int> std_back_test;
+//	if (back_test(my_back_test) == back_test(std_back_test))
+//		std::cout << "back_test is ok" << std::endl;
+//	std::cout << "=======================begin_test=========================" << std::endl;
+//	ft::vector<int> my_begin_test;
+//	std::vector<int> std_begin_test;
+//	if (begin_test(my_begin_test) == begin_test(std_begin_test))
+//		std::cout << "begin_test is ok" << std::endl;
+//	std::cout << "=======================capacity_test=========================" << std::endl;
+//	ft::vector<int> my_capacity_test;
+//	std::vector<int> std_capacity_test;
+//	if (capacity_test(my_capacity_test) == capacity_test(std_capacity_test))
+//		std::cout << "begin_test is ok" << std::endl;
+//	std::cout << "=======================clear_test=========================" << std::endl;
+//	ft::vector<int> my_clear_test;
+//	std::vector<int> std_clear_test;
+//	if (clear_test(my_clear_test) == clear_test(std_clear_test))
+//		std::cout << "clear_test is ok" << std::endl;
+//	std::cout << "=======================constructor_std_test=========================" << std::endl;
+//	ft::vector<int> my_con_test;
+//	std::vector<int> std_con_test;
+//	if (constructor_std_test(my_con_test) == constructor_std_test(std_con_test))
+//		std::cout << "constructor_std_test is ok" << std::endl;
+//	std::cout << "=======================constructor_test=========================" << std::endl;
+//	ft::vector<int> my_constructor_test;
+//	std::vector<int> std_constructor_test;
+//	if (constructor_test(my_constructor_test) == constructor_test(std_constructor_test))
+//		std::cout << "constructor_test is ok" << std::endl;
+//	std::cout << "=======================data_test=========================" << std::endl;
+//	ft::vector<int> my_data_test;
+//	std::vector<int> std_data_test;
+//	if (data_test(my_data_test) == data_test(std_data_test))
+//		std::cout << "data_test is ok" << std::endl;
+//
+//	std::cout << "=======================swap test=========================" << std::endl;
+//	ft::vector<int> my_swap;
+//	std::vector<int> std_swap;
+//	if (swap_test(my_swap) == swap_test(std_swap))
+//		std::cout << "swap is ok" << std::endl;
+//	std::cout << "=======================empty_test=========================" << std::endl;
+//	ft::vector<int> my_empty;
+//	std::vector<int> std_empty;
+//	if (empty_test(my_empty) == empty_test(std_empty))
+//		std::cout << "empty_test is ok" << std::endl;
+//	std::cout << "=======================end_test=========================" << std::endl;
+//	ft::vector<int> my_end_test;
+//	std::vector<int> std_end_test;
+//	if (end_test(my_end_test) == end_test(std_end_test))
+//		std::cout << "end_test is ok" << std::endl;
+//	std::cout << "=======================erase_test_range=========================" << std::endl;
+//	ft::vector<int> my_erase_test_2;
+//	std::vector<int> std_erase_test_2;
+//	if (erase_test_2(my_erase_test_2) == erase_test_2(std_erase_test_2))
+//		std::cout << "erase_test_range is ok" << std::endl;
+//	std::cout << "=======================erase_test_value=========================" << std::endl;
+//	ft::vector<int> my_erase_test_value;
+//	std::vector<int> std_erase_test_value;
+//	if (erase_test_1(my_erase_test_value) == erase_test_1(std_erase_test_value))
+//		std::cout << "erase_test_value is ok" << std::endl;
+//	std::cout << "=======================front_test=========================" << std::endl;
+//	ft::vector<int> my_front_test;
+//	std::vector<int> std_front_test;
+//	if (front_test(my_front_test) == front_test(std_front_test))
+//		std::cout << "front_test is ok" << std::endl;
+//	std::cout << "=======================insert_test_fill=========================" << std::endl;
+//	ft::vector<int> my_insert_test_2;
+//	std::vector<int> std_insert_test_2;
+//	if (insert_test_2(my_insert_test_2) == insert_test_2(std_insert_test_2))
+//		std::cout << "insert_test_fill is ok" << std::endl;
+//	std::cout << "=======================insert_test_range=========================" << std::endl;
+//	ft::vector<int> my_insert_test_range;
+//	std::vector<int> std_insert_test_range;
+//	std::vector<int> myresult;
+//	std::vector<int> stdresult;
+//
+//	myresult = insert_test_3(my_insert_test_range);
+//	stdresult = insert_test_3(std_insert_test_range);
+//	if (insert_test_3(my_insert_test_range) == insert_test_3(std_insert_test_range))
+//		std::cout << "insert_test_range is ok" << std::endl;
 	std::cout << "=======================insert_std_test=========================" << std::endl;
-	std::vector<int> my_insert_std_test;
+	ft::vector<int> my_insert_std_test;
 	std::vector<int> std_insert_std_test;
-	if (insert_std_test(my_insert_std_test) == insert_std_test(std_insert_std_test))
+	std::vector<int> my_insert_std_result = insert_std_test(my_insert_std_test);
+	std::vector<int> std_insert_std_result = insert_std_test(std_insert_std_test);
+	if (my_insert_std_result == std_insert_std_result)
 		std::cout << "insert_std_test is ok" << std::endl;
-	std::cout << "=======================insert_std_value=========================" << std::endl;
-	std::vector<int> my_insert_test_1;
-	std::vector<int> std_insert_test_1;
-	if (insert_test_1(my_insert_test_1) == insert_test_1(std_insert_test_1))
-		std::cout << "insert_std_value is ok" << std::endl;
-	std::cout << "=======================iterator_test=========================" << std::endl;
-	std::vector<int> my_iterator_test;
-	std::vector<int> std_iterator_test;
-	if (iterator_test(my_iterator_test) == iterator_test(std_iterator_test))
-		std::cout << "iterator_test is ok" << std::endl;
-	std::cout << "=======================maxsize_test=========================" << std::endl;
-	std::vector<int> my_maxsize_test;
-	std::vector<int> std_maxsize_test;
-	if (maxsize_test(my_maxsize_test) == maxsize_test(std_maxsize_test))
-		std::cout << "maxsize_test is ok" << std::endl;
-	std::cout << "=======================operator!=_test=========================" << std::endl;
-	if (operator_not_equal_test)
-		std::cout << "operator!=_test is ok" << std::endl;
-	std::cout << "=======================operator<_test=========================" << std::endl;
-	if (operator_less_test)
-		std::cout << "operator<_test is ok" << std::endl;
-	std::cout << "=======================operator<=_test=========================" << std::endl;
-	if (operator_less_equal_test)
-		std::cout << "operator<=_test is ok" << std::endl;
-	std::cout << "=======================operator==_test=========================" << std::endl;
-	if (operator_equal_test)
-		std::cout << "operator==_test is ok" << std::endl;
-	std::cout << "=======================operator>_test=========================" << std::endl;
-	if (operator_more_test)
-		std::cout << "operator>_test is ok" << std::endl;
-	std::cout << "=======================operator>=_test=========================" << std::endl;
-	if (operator_more_equal_test)
-		std::cout << "operator>=_test is ok" << std::endl;
-	std::cout << "=======================operator[]_test=========================" << std::endl;
-	std::vector<int> my_access_operator;
-	std::vector<int> std_access_operator;
-	if (operator1_test(my_access_operator) == operator1_test(std_access_operator))
-		std::cout << "operator[]_test is ok" << std::endl;
-	std::cout << "=======================pop_back_test=========================" << std::endl;
-	std::vector<int> my_pop_back_test;
-	std::vector<int> std_pop_back_test;
-	if (pop_back_test(my_pop_back_test) == pop_back_test(std_pop_back_test))
-		std::cout << "pop_back_test is ok" << std::endl;
-	std::cout << "=======================push_back_test=========================" << std::endl;
-	std::vector<int> my_push_back_test;
-	std::vector<int> std_push_back_test;
-	if (push_back_test(my_push_back_test) == push_back_test(std_push_back_test))
-		std::cout << "push_back_test is ok" << std::endl;
-	std::cout << "=======================rbegin_test=========================" << std::endl;
-	std::vector<int> my_rbegin_test;
-	std::vector<int> std_rbegin_test;
-	if (rbegin_test(my_rbegin_test) == rbegin_test(std_rbegin_test))
-		std::cout << "rbegin_test is ok" << std::endl;
-	std::cout << "=======================rend_test=========================" << std::endl;
-	std::vector<int> my_rend_test;
-	std::vector<int> std_rend_test;
-	if (rend_test(my_rend_test) == rend_test(std_rend_test))
-		std::cout << "rbegin_test is ok" << std::endl;
-	std::cout << "=======================reserve_test=========================" << std::endl;
-	std::vector<int> my_reserve_test;
-	std::vector<int> std_reserve_test;
-	if (reserve_test(my_reserve_test) == reserve_test(std_reserve_test))
-		std::cout << "reserve_test is ok" << std::endl;
-	std::cout << "=======================resize_test=========================" << std::endl;
-	std::vector<int> my_resize_test;
-	std::vector<int> std_resize_test;
-	if (resize_test(my_resize_test) == resize_test(std_resize_test))
-		std::cout << "resize_test is ok" << std::endl;
-	std::cout << "=======================size_test=========================" << std::endl;
-	std::vector<int> my_size_test;
-	std::vector<int> std_size_test;
-	if (size_test(my_size_test) == size_test(std_size_test))
-		std::cout << "size_test is ok" << std::endl;
+//	std::cout << "=======================insert_std_value=========================" << std::endl;
+//	ft::vector<int> my_insert_test_1;
+//	std::vector<int> std_insert_test_1;
+//	if (insert_test_1(my_insert_test_1) == insert_test_1(std_insert_test_1))
+//		std::cout << "insert_std_value is ok" << std::endl;
+//	std::cout << "=======================iterator_test=========================" << std::endl;
+//	ft::vector<int> my_iterator_test;
+//	std::vector<int> std_iterator_test;
+//	if (iterator_test(my_iterator_test) == iterator_test(std_iterator_test))
+//		std::cout << "iterator_test is ok" << std::endl;
+//	std::cout << "=======================maxsize_test=========================" << std::endl;
+//	ft::vector<int> my_maxsize_test;
+//	std::vector<int> std_maxsize_test;
+//	if (maxsize_test(my_maxsize_test) == maxsize_test(std_maxsize_test))
+//		std::cout << "maxsize_test is ok" << std::endl;
+//	std::cout << "=======================operator!=_test=========================" << std::endl;
+//	if (operator_not_equal_test)
+//		std::cout << "operator!=_test is ok" << std::endl;
+//	std::cout << "=======================operator<_test=========================" << std::endl;
+//	if (operator_less_test)
+//		std::cout << "operator<_test is ok" << std::endl;
+//	std::cout << "=======================operator<=_test=========================" << std::endl;
+//	if (operator_less_equal_test)
+//		std::cout << "operator<=_test is ok" << std::endl;
+//	std::cout << "=======================operator==_test=========================" << std::endl;
+//	if (operator_equal_test)
+//		std::cout << "operator==_test is ok" << std::endl;
+//	std::cout << "=======================operator>_test=========================" << std::endl;
+//	if (operator_more_test)
+//		std::cout << "operator>_test is ok" << std::endl;
+//	std::cout << "=======================operator>=_test=========================" << std::endl;
+//	if (operator_more_equal_test)
+//		std::cout << "operator>=_test is ok" << std::endl;
+//	std::cout << "=======================operator[]_test=========================" << std::endl;
+//	ft::vector<int> my_access_operator;
+//	std::vector<int> std_access_operator;
+//	if (operator1_test(my_access_operator) == operator1_test(std_access_operator))
+//		std::cout << "operator[]_test is ok" << std::endl;
+//	std::cout << "=======================pop_back_test=========================" << std::endl;
+//	ft::vector<int> my_pop_back_test;
+//	std::vector<int> std_pop_back_test;
+//	if (pop_back_test(my_pop_back_test) == pop_back_test(std_pop_back_test))
+//		std::cout << "pop_back_test is ok" << std::endl;
+//	std::cout << "=======================push_back_test=========================" << std::endl;
+//	ft::vector<int> my_push_back_test;
+//	std::vector<int> std_push_back_test;
+//	if (push_back_test(my_push_back_test) == push_back_test(std_push_back_test))
+//		std::cout << "push_back_test is ok" << std::endl;
+//	std::cout << "=======================rbegin_test=========================" << std::endl;
+//	ft::vector<int> my_rbegin_test;
+//	std::vector<int> std_rbegin_test;
+//	if (rbegin_test(my_rbegin_test) == rbegin_test(std_rbegin_test))
+//		std::cout << "rbegin_test is ok" << std::endl;
+//	std::cout << "=======================rend_test=========================" << std::endl;
+//	ft::vector<int> my_rend_test;
+//	std::vector<int> std_rend_test;
+//	if (rend_test(my_rend_test) == rend_test(std_rend_test))
+//		std::cout << "rbegin_test is ok" << std::endl;
+//	std::cout << "=======================reserve_test=========================" << std::endl;
+//	ft::vector<int> my_reserve_test;
+//	std::vector<int> std_reserve_test;
+//	if (reserve_test(my_reserve_test) == reserve_test(std_reserve_test))
+//		std::cout << "reserve_test is ok" << std::endl;
+//	std::cout << "=======================resize_test=========================" << std::endl;
+//	ft::vector<int> my_resize_test;
+//	std::vector<int> std_resize_test;
+//	if (resize_test(my_resize_test) == resize_test(std_resize_test))
+//		std::cout << "resize_test is ok" << std::endl;
+//	std::cout << "=======================size_test=========================" << std::endl;
+//	ft::vector<int> my_size_test;
+//	std::vector<int> std_size_test;
+//	if (size_test(my_size_test) == size_test(std_size_test))
+//		std::cout << "size_test is ok" << std::endl;
 	std::cout << "=======================swap_test=========================" << std::endl;
-	std::vector<int> my_swap_test;
+	ft::vector<int> my_swap_test;
 	std::vector<int> std_swap_test;
-	if (swap_test(my_swap_test) == swap_test(std_swap_test))
+	std::vector<int> my_swap_result = swap_test(my_swap_test);
+	std::vector<int> std_swap_result = swap_test(std_swap_test);
+	
+	if (my_swap_result == std_swap_result)
 		std::cout << "swap_test is ok" << std::endl;
 	std::cout << "=======================allocator_test=========================" << std::endl;
 	ft::vector<int, Alloc<int> >my_vector;
