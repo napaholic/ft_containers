@@ -1,6 +1,6 @@
 NAME		=	test
 CXX			=	c++
-CXXFLAGS	=	-g -Wall -Werror -Wextra -std=c++98
+CXXFLAGS	=	-g -std=c++98
 RM			=	rm
 RMFLAGS		=	-rf
 
